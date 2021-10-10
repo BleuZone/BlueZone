@@ -19,21 +19,21 @@ CREATE TABLE posts (
   creation_time date NOT NULL,
   comment_count int NOT NULL,
   username varchar(255)
-)
+);
 
-CREATE TABLE pages(
+CREATE TABLE pages (
   page_id INT NOT NULL PRIMARY KEY,
   page_title varchar(255),
   parent_page boolean,
   page_parent_id INT
-)
+);
 
-CREATE TABLE comments(
+CREATE TABLE comments (
   comment_id INT NOT NULL PRIMARY KEY,
   username varchar(255),
-  comment varchar(255)
+  comment varchar(255),
   parent_exists boolean,
   parent_id INT,
   post_id INT,
   creation_time date NOT NULL
-)
+);
