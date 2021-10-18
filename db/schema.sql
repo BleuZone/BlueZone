@@ -15,8 +15,8 @@ CREATE TABLE posts (
   post_title varchar(255),
   post_body varchar(255) NOT NULL,
   points INT NOT NULL,
-  page_id FOREIGN KEY REFERENCES pages(page_id)
-  creation_time date NOT NULL,
+  page_id FOREIGN KEY REFERENCES pages(page_id),
+  creation_time TIMESTAMP NOT NULL,
   comment_count int NOT NULL,
   username FOREIGN KEY REFERENCES username_matching(username)
 );
@@ -30,10 +30,10 @@ CREATE TABLE pages (
 
 CREATE TABLE comments (
   comment_id INT NOT NULL PRIMARY KEY,
-  username FOREIGN KEY REFERENCES username_matching(username)
+  username FOREIGN KEY REFERENCES username_matching(username),
   comment varchar(255),
   parent_exists boolean,
   parent_id INT,
-  post_id FOREIGN KEY REFERENCES posts(post_id)
-  creation_time date NOT NULL
+  post_id FOREIGN KEY REFERENCES posts(post_id),
+  creation_time TIMESTAMP NOT NULL
 );

@@ -1,4 +1,5 @@
 const express = require('express')
+const mysqlConfig = require ('config.js');
 const app = express()
 const port = 3000
 
