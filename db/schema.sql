@@ -34,6 +34,7 @@ CREATE TABLE pages (
   page_title varchar(255),
   parent_page boolean,
   page_parent_id INT,
+  post_count INT,
   PRIMARY KEY (page_id)
 );
 

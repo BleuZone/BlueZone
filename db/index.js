@@ -3,8 +3,7 @@ let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'PASSWORD',
-  database: 'BlueZone';
-
+  database: 'BlueZone'
 })
 
 connection.connect();
