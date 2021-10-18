@@ -8,9 +8,10 @@ CREATE TABLE users (
 );
 
 CREATE TABLE username_matching (
-  FOREIGN KEY (id) REFERENCES users(id),
+  id INT,
   username varchar(255),
   points INT,
+  FOREIGN KEY (id) REFERENCES users(id),
   PRIMARY KEY (username)
 );
 
@@ -19,10 +20,12 @@ CREATE TABLE posts (
   post_title varchar(255),
   post_body varchar(255) NOT NULL,
   points INT NOT NULL,
-  FOREIGN KEY page_id REFERENCES pages(page_id)
-  creation_time date NOT NULL,
+  page_id INT,
+  creation_time TIMESTAMP NOT NULL,
   comment_count int NOT NULL,
-  FOREIGN KEY (username)  REFERENCES username_matching(username),
+  username varchar(255),
+  FOREIGN KEY (username) REFERENCES username_matching(username),
+  FOREIGN KEY (page_id) REFERENCES pages(page_id),
   PRIMARY KEY (post_id)
 );
 
@@ -36,11 +39,13 @@ CREATE TABLE pages (
 
 CREATE TABLE comments (
   comment_id INT NOT NULL,
-  FOREIGN KEY (username) REFERENCES username_matching(username)
+  username varchar(255),
   comment varchar(255),
   parent_exists boolean,
   parent_id INT,
-  FOREIGN KEY (post_id) REFERENCES posts(post_id)
-  creation_time date NOT NULL
+  post_id INT,
+  creation_time TIMESTAMP NOT NULL,
+  FOREIGN KEY (username) REFERENCES username_matching(username),
+  FOREIGN KEY (post_id) REFERENCES posts(post_id),
   PRIMARY KEY (comment_id)
 );
