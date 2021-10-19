@@ -1,14 +1,23 @@
 let database = require ('../../db/index.js');
 
-let getPosts = (id, callback) => {
-    database.query('SELECT * FROM posts WHERE post_id= ?', [id], (err,result) => {
+let getPosts = (id, filter, callback) => {
+  if (filter === 'top') {
+    database.query(`SELECT * FROM posts WHERE post_id=${id} ORDER BY points DESC`, (err, result) => {
       if (err) {
-        console.log(err);
+        callback(err, null);
       } else {
         callback(null, result);
       }
-    })
-  };
+      });
+  } else if (filter === 'new') {
+    database.query(`SELECT * FROM posts WHERE post_id=${id} ORDER BY timestamp ASC`, (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    });
+  }
 
 let addPost = (post_id, post_title, post_body, points, page_id, creation_time, comment_count, username, callback) => {
   database.query(`INSERT INTO posts(post_id, post_title, post_body, points, page_id, creation_time, comment_count, username) VALUES (${post_id}, '${post_title}', ${post_body}, ${points}, ${page_id}, ${creation_time}, ${comment_count}, ${username})`, (err, result) => {
@@ -50,7 +59,7 @@ let updatePostBody = (post_id, post_body,callback) => {
   });
 }
 
-  
+
   getPosts(1, (err, result) => {
     if (err) {
       console.error('error getting posts');
