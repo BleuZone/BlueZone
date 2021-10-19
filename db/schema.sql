@@ -46,6 +46,7 @@ CREATE TABLE comments (
   parent_id INT,
   post_id INT,
   creation_time TIMESTAMP NOT NULL,
+  points INT,
   FOREIGN KEY (username) REFERENCES username_matching(username),
   FOREIGN KEY (post_id) REFERENCES posts(post_id),
   PRIMARY KEY (comment_id)

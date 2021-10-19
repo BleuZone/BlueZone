@@ -40,13 +40,13 @@ let updatePostCount = (page_id, callback) => {
   });
 }
 
-// getPages(1, (err, result) => {
-//   if (err) {
-//     console.error('error getting pages');
-//   } else {
-//     console.log(result);
-//   }
-// });
+getPages(1, (err, result) => {
+  if (err) {
+    console.error('error getting pages');
+  } else {
+    console.log(result);
+  }
+});
 
 // addPage(5, 'Group Page 5', 1, 0, (err, result) => {
 //   if (err) {
