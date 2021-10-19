@@ -17,3 +17,7 @@ mysql -uroot -p
 ```
 
 password is BLUEZONE
+
+To copy schema into docker:
+
+https://stackoverflow.com/questions/14684063/mysql-source-error-2
