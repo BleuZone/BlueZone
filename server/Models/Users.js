@@ -20,14 +20,15 @@ const createUser = (user_email, user_password, callback) => {
 /**
  * Updates user_password for a certain user
  *
+ * id: int
  * user_email: string
  * user_password: string
  * callback: function()
  */
 
- const changePassword = (user_email, user_password, callback) => {
+ const changePassword = (id, user_email, user_password, callback) => {
     database.query(
-        `UPDATE users SET user_password = '${user_password}' WHERE user_email = '${user_email}';`, (err,result) => {
+        `UPDATE users SET user_password = '${user_password}' WHERE id = '${id}' AND user_email = '${user_email}';`, (err,result) => {
       if (err) {
         console.log(err);
       } else {
@@ -51,8 +52,27 @@ const checkUserExists = (user_email, callback) => {
     })
   };
 
+  /**
+ * deletes user with given id
+ * id: int
+ * callback: function()
+ */
+  const deleteUser = (id, callback) => {
+    database.query(
+        ` DELETE FROM users WHERE id="${id}"`,
+        (err,result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(null, result);
+      }
+    })
+  };
 
-//  tests the function by adding sample user
+
+  //  when they delete user, really it should delete the usernames, and then change the posts associated with that user
+
+ //tests the function by adding sample user
 // createUser(
 //     'arjunRao13@duke.edu',
 //     'I like complex relationships',
@@ -67,8 +87,9 @@ const checkUserExists = (user_email, callback) => {
 
 //  tests the function by adding sample user
 // changePassword(
+//     5,
 //     'arjunRao13@duke.edu',
-//     'passwordOneHundred',
+//     'passwordFIDFIIF',
 //     (err, result) => {
 //         if (err) {
 //             console.log("error changing password");
@@ -86,6 +107,18 @@ const checkUserExists = (user_email, callback) => {
 //             console.log("Error checking user");
 //         } else {
 //             console.log(result && result.length);
+//         }
+//     }
+// );
+
+//  tests the function by deleting sample user
+// deleteUser(
+//     7,
+//     (err, result) => {
+//         if (err) {
+//             console.log("Error checking user");
+//         } else {
+//             console.log(result);
 //         }
 //     }
 // );
