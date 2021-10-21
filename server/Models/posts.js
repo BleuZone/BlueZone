@@ -11,7 +11,17 @@ let getPosts = (id, callback) => {
   };
 
 let addPost = (post_id, post_title, post_body, points, page_id, creation_time, comment_count, username, callback) => {
-  database.query(`INSERT INTO posts(post_id, post_title, post_body, points, page_id, creation_time, comment_count, username) VALUES (${post_id}, '${post_title}', ${post_body}, ${points}, ${page_id}, ${creation_time}, ${comment_count}, ${username})`, (err, result) => {
+  database.query(`INSERT INTO posts(post_id, post_title, post_body, points, page_id, creation_time, comment_count, username) VALUES (${post_id}, '${post_title}', '${post_body}', ${points}, ${page_id}, '${creation_time}', ${comment_count}, '${username}')`, (err, result) => {
+    if (err) {
+      callback(err, null)
+    } else {
+      callback(null, result)
+    }
+  })
+};
+
+const deletePost = (post_id, callback) => {
+  database.query(`DELETE from posts WHERE post_id = '${post_id}'`, (err, result) => {
     if (err) {
       callback(err, null)
     } else {
@@ -41,7 +51,7 @@ let getPageID = (post_id, callback) => {
 }
 
 let updatePostBody = (post_id, post_body,callback) => {
-  database.query(`UPDATE posts SET post_body = ${post_body} WHERE post_id = ${post_id}'`, (err, result) => {
+  database.query(`UPDATE posts SET post_body = '${post_body}' WHERE post_id = ${post_id}`, (err, result) => {
     if (err) {
       callback(err, null);
     } else {
@@ -50,11 +60,27 @@ let updatePostBody = (post_id, post_body,callback) => {
   });
 }
 
-  
-  getPosts(1, (err, result) => {
-    if (err) {
-      console.error('error getting posts');
-    } else {
-      console.log(result);
-    }
-  });
+//  TESTS
+  // getPosts(1, (err, result) => {
+  //   if (err) {
+  //     console.error('error getting posts');
+  //   } else {
+  //     console.log(result);
+  //   }
+  // });
+
+  // addPost(5, "test add Post", "This is a test for a test post", 3, 3, "2021-10-20 04:04:50", 0, "person5", (err, result) => {
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     console.log(result);
+  //   }
+  // });
+
+  // deletePost(5, (err, result) => {
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     console.log(result);
+  //   }
+  // });
