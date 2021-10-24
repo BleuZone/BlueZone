@@ -1,29 +1,21 @@
 let database = require ('../../db/index.js');
 
-let getPosts = (id, callback) => {
-  let retObj = [];
-  let retObj1 = []
-  database.query('SELECT * FROM posts WHERE page_id= ?', [id], (err,result) => {
+let getPosts = (page_id, callback) => {
+  let retArray = [];
+  database.query(`SELECT * FROM posts WHERE page_id=${page_id}`, (err,result) => {
     if (err) {
-      console.log(err);
+      callback(err, null);
     } else {
-      for (let row of result) {
-        console.log(row);
-        console.log(row.post_id);
-        retObj.push(row);
-      }
-      console.log("The returned object is: ", retObj);
-      result.map((data) => {
-        retObj1.push({ ...data});
+      result.map((row) => {
+        retArray.push({ ...row});
       })
-      console.log(retObj1);
-      //callback(null, result);
+      callback(null retArray);
     }
   })
 };
 
 let createPost = (post_title, post_body, page_id, creation_time, username, callback) => {
-  database.query(`INSERT INTO posts(post_title, post_body, points, page_id, creation_time, comment_count, username) VALUES (${post_id}, '${post_title}', ${post_body}, 0, ${page_id}, ${creation_time}, 0, ${username})`, (err, result) => {
+  database.query(`INSERT INTO posts(post_title, post_body, points, page_id, creation_time, comment_count, username) VALUES ('${post_title}', '${post_body}', 0, ${page_id}, ${creation_time}, 0, '${username}')`, (err, result) => {
     if (err) {
       callback(err, null)
     } else {
@@ -43,7 +35,7 @@ const deletePost = (post_id, callback) => {
 };
 
 let editPost = (post_id, post_title, post_body, callback) => {
-  database.query(`UPDATE posts SET post_title=${post_title}, post_body=${post_body} WHERE post_id=${post_id}`, (err, result) => {
+  database.query(`UPDATE posts SET post_title='${post_title}', post_body='${post_body}' WHERE post_id=${post_id}`, (err, result) => {
     if (err) {
       callback(err, null);
     } else {
@@ -52,8 +44,8 @@ let editPost = (post_id, post_title, post_body, callback) => {
   });
 };
 
-let addPoints = (post_id, points, callback) => {
-  database.query(`UPDATE posts SET points = ${points} WHERE post_id = ${post_id}'`, (err, result) => {
+let addPoints = (post_id, callback) => {
+  database.query(`UPDATE posts SET points = points + 1 WHERE post_id = ${post_id}'`, (err, result) => {
     if (err) {
       callback(err, null);
     } else {
@@ -62,18 +54,19 @@ let addPoints = (post_id, points, callback) => {
   });
 }
 
-let getPageID = (post_id, callback) => {
-  database.query(`SELECT page_id FROM posts WHERE post_id = ${post_id}`, (err, result) => {
+let deletePoints = (post_id, callback) => {
+  database.query(`UPDATE posts SET points = points - 1 WHERE post_id=${post_id}`, (err, result) => {
     if (err) {
       callback(err, null);
     } else {
-      callback(null, result);
+      callback(null, result)
     }
   });
 }
 
-let updatePostUsername = (post_id, post_body,callback) => {
-  database.query(`UPDATE posts SET post_body = ${post_body} WHERE post_id = ${post_id}'`, (err, result) => {
+
+let updatePostUsername = (post_id, username ,callback) => {
+  database.query(`UPDATE posts SET username=${username} WHERE post_id = ${post_id}'`, (err, result) => {
     if (err) {
       callback(err, null);
     } else {
