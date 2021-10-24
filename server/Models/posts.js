@@ -29,6 +29,16 @@ let createPost = (post_title, post_body, page_id, creation_time, username, callb
     } else {
       callback(null, result)
     }
+  })
+};
+
+const deletePost = (post_id, callback) => {
+  database.query(`DELETE from posts WHERE post_id = '${post_id}'`, (err, result) => {
+    if (err) {
+      callback(err, null)
+    } else {
+      callback(null, result)
+    }
   });
 };
 
@@ -73,10 +83,36 @@ let updatePostUsername = (post_id, post_body,callback) => {
 }
 
 
-getPosts(3, (err, result) => {
-  if (err) {
-    console.error('error getting posts');
-  } else {
-    console.log(result);
-  }
-});
+//  TESTS
+
+// getPosts(3, (err, result) => {
+//   if (err) {
+//     console.error('error getting posts');
+//   } else {
+//     console.log(result);
+//   }
+// });
+
+  // getPosts(1, (err, result) => {
+  //   if (err) {
+  //     console.error('error getting posts');
+  //   } else {
+  //     console.log(result);
+  //   }
+  // });
+
+  // addPost(5, "test add Post", "This is a test for a test post", 3, 3, "2021-10-20 04:04:50", 0, "person5", (err, result) => {
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     console.log(result);
+  //   }
+  // });
+
+  // deletePost(5, (err, result) => {
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     console.log(result);
+  //   }
+  // });
