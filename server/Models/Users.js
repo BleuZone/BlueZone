@@ -42,12 +42,14 @@ const createUser = (user_email, user_password, callback) => {
  * callback: function()
  */
 const checkUserExists = (user_email, callback) => {
-    database.query(
-        `SELECT * FROM users WHERE user_email = '${user_email}'`, (err,result) => {
+  database.query(
+        `SELECT EXISTS(SELECT * FROM users WHERE user_email='${user_email}')`, (err,result) => {
       if (err) {
         console.log(err);
       } else {
-        callback(null, result);
+        const resultObject = result[0];
+        const keys = Object.keys(resultObject);
+        callback(null, resultObject[keys[0]]);
       }
     })
   };
@@ -85,9 +87,9 @@ const checkUserExists = (user_email, callback) => {
 //     }
 // );
 
-//  tests the function by adding sample user
+// tests the function by adding sample user
 // changePassword(
-//     5,
+//     8,
 //     'arjunRao13@duke.edu',
 //     'passwordFIDFIIF',
 //     (err, result) => {
@@ -106,14 +108,14 @@ const checkUserExists = (user_email, callback) => {
 //         if (err) {
 //             console.log("Error checking user");
 //         } else {
-//             console.log(result && result.length);
+//             console.log(result);
 //         }
 //     }
 // );
 
 //  tests the function by deleting sample user
 // deleteUser(
-//     7,
+//     8,
 //     (err, result) => {
 //         if (err) {
 //             console.log("Error checking user");
