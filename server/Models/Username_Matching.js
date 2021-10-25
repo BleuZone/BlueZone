@@ -19,15 +19,34 @@ let createUsername = (user_id, username, callback) => {
     });
 }
 
-createUsername(0, 'arjunrao', (err, result) => {
-    if(err){
-        console.log(err);
-    }else{
-console.log(result);
-    }
-});
+let changeUsername = (user_id, username, callback) => {
+    database.query(`UPDATE username_matching SET username = '${username}' WHERE id = ${user_id}`, (err, result) => {
+        if (err) {
+            callback(err, null);
+          } else {
+            callback(null, result);
+          }
+    });
+}
 
-fetchUsername(0, (err, result) => {
+// createUsername(0, 'arjunrao', (err, result) => {
+//     if(err){
+//         console.log(err);
+//     }else{
+// console.log(result);
+//     }
+// });
+
+// fetchUsername(0, (err, result) => {
+//     if(err){
+//         console.log(err);
+//     }else{
+//         console.log(result);
+//     }
+    
+// });
+
+changeUsername(2, 'zachary', (err, result) => {
     if(err){
         console.log(err);
     }else{
