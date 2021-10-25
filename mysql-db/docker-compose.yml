@@ -14,3 +14,13 @@ services:
       ADMINER_DEFAULT_SERVER: bluezone
     ports:
       - "8080:8080"
+
+  app:
+    build:
+      context: .
+      dockerfile: ../app/Dockerfile
+    image: bluezone
+    depends_on:
+      - bluezone
+    stdin_open: true
+    tty: true
