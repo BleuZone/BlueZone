@@ -1,0 +1,16 @@
+version: '3'
+services:
+  bluezone:
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: BLUEZONE
+      MYSQL_DATABASE: bluezone
+    ports:
+      - "3306:3306"
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: bluezone
+    ports:
+      - "8080:8080"

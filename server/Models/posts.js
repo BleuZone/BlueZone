@@ -30,8 +30,48 @@ let updatePostPoints = (post_id, points, callback) => {
   });
 }
 
+let getPoints = (post_id, callback) => {
+  database.query(`SELECT points FROM posts WHERE post_id = ${post_id}`, (err, result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
+let updateCommentCount = (post_id, callback) => {
+  database.query(`UPDATE posts SET comment_count = comment_count + 1 WHERE page_id = ${post_id}`, (err, result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
 let getPageID = (post_id, callback) => {
   database.query(`SELECT page_id FROM posts WHERE post_id = ${post_id}`, (err, result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
+let updatePostTitle = (post_id, post_title,callback) => {
+  database.query(`UPDATE posts SET post_title = ${post_title} WHERE post_id = ${post_id}'`, (err, result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
+let updateCreationTime = (creation_time, post_id ,callback) => {
+  database.query(`UPDATE posts SET creation_time = ${creation_time} WHERE post_id = ${post_id}'`, (err, result) => {
     if (err) {
       callback(err, null);
     } else {
