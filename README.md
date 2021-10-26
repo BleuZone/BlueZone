@@ -18,7 +18,7 @@ docker-compose up
 
 To access the database:
 ```
-sudo docker exec -it mysql-db-bluezone-1 bash
+sudo docker exec -it mysql-db_bluezone_1 bash
 ```
 
 ```
