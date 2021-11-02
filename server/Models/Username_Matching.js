@@ -29,6 +29,20 @@ let changeUsername = (user_id, username, callback) => {
     });
 }
 
+
+//this method has not been merged yet
+let deleteUsername = (id, callback) => {
+    database.query(
+        ` DELETE FROM username_matching WHERE id="${id}"`,
+        (err,result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(null, result);
+      }
+    })
+  };
+
 // createUsername(0, 'arjunrao', (err, result) => {
 //     if(err){
 //         console.log(err);
@@ -46,14 +60,23 @@ let changeUsername = (user_id, username, callback) => {
     
 // });
 
-changeUsername(2, 'zachary', (err, result) => {
-    if(err){
-        console.log(err);
-    }else{
-        console.log(result);
-    }
+// changeUsername(2, 'zachary', (err, result) => {
+//     if(err){
+//         console.log(err);
+//     }else{
+//         console.log(result);
+//     }
     
-});
+// });
+
+// deleteUsername(2, (err, result) => {
+//     if(err){
+//         console.log(err);
+//     }else{
+//         console.log(result);
+//     }
+    
+// });
 
 
 
