@@ -8,6 +8,10 @@ router.route('/User')
     controllers.
   })
 
+  router.route('/User/:id')
+    .delete((req, res))
+    .put((req, res))
+
 //Pages (or Groups)
 
 //Posts

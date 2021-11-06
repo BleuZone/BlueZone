@@ -93,3 +93,4 @@ let changeUsername = (user_id, username, callback) => {
 //     }
 // })
 
+module.exports = {fetchUsername, createUsername, changeUsername};
