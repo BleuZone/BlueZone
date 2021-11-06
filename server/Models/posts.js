@@ -75,7 +75,7 @@ let editPost = (post_id, post_title, post_body, callback) => {
  * @param {int} post_id
  * @param {function(err, result)} callback
  */
-let addPoints = (post_id, callback) => {
+let incrementPoints = (post_id, callback) => {
   database.query(`UPDATE posts SET points = points + 1 WHERE post_id = ?`, [post_id], (err, result) => {
     if (err) {
       callback(err, null);
@@ -90,7 +90,7 @@ let addPoints = (post_id, callback) => {
  * @param {int} post_id
  * @param {function(err, result)} callback
  */
-let deletePoints = (post_id, callback) => {
+let decrementPoints = (post_id, callback) => {
   database.query(`UPDATE posts SET points = points - 1 WHERE post_id=?`, [post_id], (err, result) => {
     if (err) {
       callback(err, null);
