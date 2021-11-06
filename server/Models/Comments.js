@@ -1,69 +1,59 @@
 let database = require('../../db/index.js');
+const util = require('util');
 
-let getComments = (post_id, callback) => {
-  //commentChain with fake data: [comment, username, points, comment_id, {subcomments: [subcomment1, user, points, subcomments: {sub-subcomment1, }]}]
+const dbQuery = util.promisify(database.query).bind(database);
 
-
-  let retArray = [];
-
-  let organizeComments = (parent_id, level) => {
-    let subComments = []
-
-    let query_id = null;
-    if (parent_id) {
-      query_id = `= ${parent_id}`;
+const getComments = (post_id, callback) => {
+  let rawData = recurseQuery(post_id, (err, result) => {
+    if (err) {
+      callback(err, null);
     } else {
-      query_id = `IS NULL`;
+      console.log(result);
     }
-
-    database.query(`SELECT * FROM comments WHERE parent_id ${query_id} ORDER BY points DESC`, (err, result) => {
-      if (err) {
-        console.log(err); // Returns as there are no more queries to make
-        return;
-      } else {
-        //Map through results (each row)
-        result.map((row) => {
-          console.log("Parent id is: ", parent_id);
-          let commentObject = {
-            username: row.username,
-            comment: row.comment,
-            post_id: row.post_id,
-            creation_time: row.creation_time,
-            points: row.points,
-            subComments: [],
-            level: level
-          };
-          commentObject.subComments = organizeComments(row.comment_id, level+1);
-          if (!parent_id) {
-            retArray.push(commentObject);
-            callback(null, retArray);
-          } else {
-
-          }
-        })
-      }
-    });
-
-  }
-  organizeComments(null, 0);
-
+  })
 }
 
-// getComments(2, (err, result) => {
-//   if (err) {
-//     console.log("This is an error: ", err);
-//   } else {
-//     console.log("This is the result data: ", result)
-//   }
-// })
 
+const recurseQuery = (post_id, callback) => {
+  database.query(
+    `WITH RECURSIVE cte (comment_id, username, comment, parent_id, post_id, creation_time, points) as (
+      select comment_id, username, comment, parent_id, post_id, creation_time, points
+       FROM comments
+        WHERE post_id = ${post_id}
+        UNION ALL
+        SELECT p.comment_id, p.username, p.comment, p.parent_id, p.post_id, p.creation_time, p.points
+        FROM comments p
+        INNER JOIN cte ON p.parent_id = cte.comment_id
+        )
+        SELECT DISTINCT * FROM cte;
+        `, (err, result) => {
+          if (err) {
+            callback(err, null);
+          } else {
+            retArray = []
+            for (let row of result) {
+              let commentObject = {
+                comment_id: row.comment_id,
+                username: row.username,
+                comment: row.comment,
+                parent_id: row.parent_id,
+                post_id: row.post_id,
+                creation_time: row.creation_time,
+                points: row.points,
+                subComments: []
+              }
+              retArray.push(commentObject);
+            }
+            callback(null, retArray);
+          }
+        }
+  )
+}
 
-let testAsnyc = () => {
-  console.log('first')
-  let test = database.query(`select * from comments`);
-  console.log(test);
-  console.log('second');
-  return test;
-};
-
-testAsnyc();
+getComments(1, (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});
