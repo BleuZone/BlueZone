@@ -1,42 +1,66 @@
 let database = require('../../db/index.js');
+const util = require('util');
 
-let getComments = (post_id, callback) => {
-  //commentChain with fake data: [comment, username, points, comment_id, {subcomments: [subcomment1, user, points, subcomments: {sub-subcomment1, }]}]
-  let commentObject = {
-    username: '',
-    comment: '',
-    points: '',
-    creationTime: '',
-    subComments: {}
-  };
-  // let commentChain = []
-  // let organizeComments = (parent_id, level) => {
-  //   database.query(`SELECT * FROM comments WHERE post_id = ${parent_id}`, (err, result) => {
-  //     if (err) {
-  //       return;
-  //     } else {
+const dbQuery = util.promisify(database.query).bind(database);
 
-  //     }
-  //   })
-  // }
-  database.query(`SELECT * FROM comments WHERE post_id = ${post_id} ORDER BY points DESC`, (err, result) => {
-    if(err) {
-      callback(err, null)
+const getComments = (post_id, callback) => {
+  let rawData = recurseQuery(post_id, (err, result) => {
+    if (err) {
+      callback(err, null);
     } else {
-      console.log("The result object is: ", result);
-      for (let x = 0; x < result.length; x++) {
-        console.log(result[x].comment_id);
-      }
-      // let data = JSON.parse(JSON.stringify(result));
-      // console
+      console.log(result);
     }
-  });
+  })
 }
 
-getComments(2, (err, result) => {
+let sortComments = (commentArray) => {
+
+  for (let comment of commentArray) {
+
+  }
+}
+
+
+const recurseQuery = (post_id, callback) => {
+  database.query(
+    `WITH RECURSIVE cte (comment_id, username, comment, parent_id, post_id, creation_time, points) as (
+      select comment_id, username, comment, parent_id, post_id, creation_time, points
+       FROM comments
+        WHERE post_id = ${post_id}
+        UNION ALL
+        SELECT p.comment_id, p.username, p.comment, p.parent_id, p.post_id, p.creation_time, p.points
+        FROM comments p
+        INNER JOIN cte ON p.parent_id = cte.comment_id
+        )
+        SELECT DISTINCT * FROM cte;
+        `, (err, result) => {
+          if (err) {
+            callback(err, null);
+          } else {
+            retArray = []
+            for (let row of result) {
+              let commentObject = {
+                comment_id: row.comment_id,
+                username: row.username,
+                comment: row.comment,
+                parent_id: row.parent_id,
+                post_id: row.post_id,
+                creation_time: row.creation_time,
+                points: row.points,
+                subComments: []
+              }
+              retArray.push(commentObject);
+            }
+            callback(null, retArray);
+          }
+        }
+  )
+}
+
+getComments(1, (err, result) => {
   if (err) {
     console.log(err);
   } else {
-    console.log(result)
+    console.log(result);
   }
-})
+});
