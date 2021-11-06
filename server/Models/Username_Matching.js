@@ -36,8 +36,14 @@ let createUsername = (user_id, username, callback) => {
     });
 }
 
+/**
+ *
+ * @param {int} user_id
+ * @param {string} username
+ * @param {function(err, result)} callback
+ */
 let changeUsername = (user_id, username, callback) => {
-    database.query(`UPDATE username_matching SET username = '${username}' WHERE id = ${user_id}`, (err, result) => {
+    database.query(`UPDATE username_matching SET username = ? WHERE id = ?`, [username, user_id], (err, result) => {
         if (err) {
             callback(err, null);
           } else {
@@ -54,4 +60,36 @@ let changeUsername = (user_id, username, callback) => {
 //         console.log(result);
 //     }
 // });
+
+// CREATE USERNAME TESTS
+// createUsername(3, 'arjunRao', (err, result) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log(result);
+//     }
+// });
+// createUsername(2, 'zlewitton', (err, result) => {
+//     if (err) {
+//         console.log(err)
+//     } else {
+//         console.log(result);
+//     }
+// });
+// createUsername(2, 'zlewitton; AND DROP TABLE pages;', (err, result) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log(result);
+//     }
+// })
+
+// CHANGE USERNAME TESTS
+// changeUsername(2, 'zlewitton14', (err, result) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log(result);
+//     }
+// })
 
