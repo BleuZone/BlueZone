@@ -2,15 +2,14 @@ let database = require('../../db/index.js');
 
 /**
  * userName: string
- * password: string
+ * password: string (should be hashed and salted before this step)
  * callback: function()
  */
 const createUser = (user_email, user_password, callback) => {
-    database.query(
-        `INSERT INTO users (user_email, user_password) VALUES("${user_email}",
-        "${user_password}")`, (err,result) => {
+    database.query(`INSERT INTO users (user_email, user_password) VALUES (?, ?)`
+    , [user_email, user_password], (err, result) => {
       if (err) {
-        console.log(err);
+        callback(err, null);
       } else {
         callback(null, result);
       }
@@ -20,23 +19,26 @@ const createUser = (user_email, user_password, callback) => {
 /**
  * Updates user_password for a certain user
  *
- * id: int
+ * id: user id (int)
  * user_email: string
- * user_password: string
+ * user_password: string (should be hashed before this step)
  * callback: function()
  */
 
  const changePassword = (id, user_email, user_password, callback) => {
-    database.query(
-        `UPDATE users SET user_password = '${user_password}' WHERE id = '${id}' AND user_email = '${user_email}';`, (err,result) => {
+    database.query(`UPDATE users SET user_password = ? WHERE id = ? AND user_email = ?`, [user_password, id, user_email],
+    (err, result) => {
       if (err) {
-        console.log(err);
+        callback(err, null);
       } else {
         callback(null, result);
       }
+
     })
   };
+
 /**
+ * NOT SURE IF WE NEED THIS
  * checks if user exists: callback should check if there is anything returned from query
  * user_email: string
  * callback: function()
@@ -61,10 +63,10 @@ const checkUserExists = (user_email, callback) => {
  */
   const deleteUser = (id, callback) => {
     database.query(
-        ` DELETE FROM users WHERE id="${id}"`,
+        ` DELETE FROM users WHERE id=?`, [id],
         (err,result) => {
       if (err) {
-        console.log(err);
+        callback(err, null);
       } else {
         callback(null, result);
       }
@@ -74,22 +76,23 @@ const checkUserExists = (user_email, callback) => {
 
   //  when they delete user, really it should delete the usernames, and then change the posts associated with that user
 
- //tests the function by adding sample user
+// CREATE USER TESTS
 // createUser(
-//     'arjunRao13@duke.edu',
-//     'I like complex relationships',
+//     'zlew@me.edu',
+//     'HASHEDPASSWORD',
 //     (err, result) => {
 //         if (err) {
 //             console.log("Error creating user");
 //         } else {
-//             console.log(result);
+//             console.log('Success! ', result);
 //         }
 //     }
 // );
 
-// tests the function by adding sample user
+
+// CHANGE PASSWORD TESTS
 // changePassword(
-//     8,
+//     3,
 //     'arjunRao13@duke.edu',
 //     'passwordFIDFIIF',
 //     (err, result) => {
@@ -101,7 +104,7 @@ const checkUserExists = (user_email, callback) => {
 //     }
 // );
 
-//  tests the function by adding sample user
+// CHECK USER TESTS
 // checkUserExists(
 //     'jsb91@duke.edu',
 //     (err, result) => {
@@ -113,14 +116,14 @@ const checkUserExists = (user_email, callback) => {
 //     }
 // );
 
-//  tests the function by deleting sample user
-// deleteUser(
-//     8,
-//     (err, result) => {
-//         if (err) {
-//             console.log("Error checking user");
-//         } else {
-//             console.log(result);
-//         }
-//     }
-// );
+// DELETE USER TESTS
+deleteUser(
+    6,
+    (err, result) => {
+        if (err) {
+            console.log("Error checking user");
+        } else {
+            console.log(result);
+        }
+    }
+);
