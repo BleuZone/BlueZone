@@ -13,6 +13,13 @@ const getComments = (post_id, callback) => {
   })
 }
 
+let sortComments = (commentArray) => {
+
+  for (let comment of commentArray) {
+
+  }
+}
+
 
 const recurseQuery = (post_id, callback) => {
   database.query(
