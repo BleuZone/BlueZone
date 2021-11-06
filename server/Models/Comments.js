@@ -3,6 +3,11 @@ const util = require('util');
 
 const dbQuery = util.promisify(database.query).bind(database);
 
+/**
+ *
+ * @param {int} post_id
+ * @param {func} callback
+ */
 const getComments = (post_id, callback) => {
   let rawData = recurseQuery(post_id, (err, result) => {
     if (err) {
@@ -19,7 +24,6 @@ let sortComments = (commentArray) => {
 
   }
 }
-
 
 const recurseQuery = (post_id, callback) => {
   database.query(
@@ -57,10 +61,154 @@ const recurseQuery = (post_id, callback) => {
   )
 }
 
-getComments(1, (err, result) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }
-});
+/**
+ *
+ * @param {String} username
+ * @param {String} comment
+ * @param {int} parent_id
+ * @param {int} post_id
+ * @param {TimeStamp strings} creation_time
+ * @param {*} callback
+ */
+const createComment = (username, comment, parent_id, post_id, creation_time, callback) => {
+  database.query('INSERT INTO comments (username, comment, parent_id, post_id, creation_time, points) VALUES (?, ?, ?, ?, ?, 0)',
+  [
+    username,
+    comment,
+    parent_id,
+    post_id,
+    creation_time
+  ],
+  (err, result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ *
+ * @param {int} comment_id
+ * @param {String} comment
+ * @param {function} callback
+ */
+const editComment = (comment_id, comment, callback) => {
+  database.query('UPDATE comments SET comment = ? WHERE comment_id = ?',
+  [
+    comment,
+    comment_id
+  ],
+  (err, result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ *
+ * @param {int} comment_id
+ * @param {function} callback
+ */
+const deleteComment = (comment_id, callback) => {
+  database.query('DELETE FROM comments WHERE comment_id = ?',
+  [
+    comment_id
+  ],
+  (err, result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ *
+ * @param {int} comment_id
+ * @param {function} callback
+ */
+let incrementPoints = (comment_id, callback) => {
+  database.query(
+    'UPDATE comments SET points = points + 1 WHERE comment_id = ?',
+    [
+      comment_id
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
+const decrementPoints = (comment_id, callback) => {
+  database.query(
+    'UPDATE comments SET points = points - 1 WHERE comment_id = ?',
+    [
+      comment_id
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
+// getComments(1, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
+
+// createComment('zlewitton', 'this is my second comment', 1, 1, '2021-11-5 20:33:58', (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
+
+// editComment(5, 'Ive edited my second comment!', (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
+
+// deleteComment(5, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
+
+// incrementPoints(6, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
+
+// decrementPoints(6, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
