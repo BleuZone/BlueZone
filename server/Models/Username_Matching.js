@@ -1,11 +1,20 @@
 let database = require('../../db/index.js');
 
+
+/**
+ * user_id: user id value from users table an int
+ * callback: (err, null)
+*/
 let fetchUsername = (user_id, callback) => {
-    database.query(`SELECT * FROM username_matching WHERE id= ${user_id}`, (err,result) => {
+    database.query(`SELECT * FROM username_matching WHERE id= ?`, [user_id], (err,result) => {
         if (err) {
           callback(err, null)
         } else {
-          callback(null, result);
+            retArray = [];
+            for (let row of result) {
+                let dataObj = {id:}
+            }
+            callback(null, JSON.stringify(data));
         }
       });
 }
@@ -29,31 +38,11 @@ let changeUsername = (user_id, username, callback) => {
     });
 }
 
-// createUsername(0, 'arjunrao', (err, result) => {
-//     if(err){
-//         console.log(err);
-//     }else{
-// console.log(result);
-//     }
-// });
-
-// fetchUsername(0, (err, result) => {
-//     if(err){
-//         console.log(err);
-//     }else{
-//         console.log(result);
-//     }
-    
-// });
-
-changeUsername(2, 'zachary', (err, result) => {
-    if(err){
+// FETCH USERNAME TESTS
+fetchUsername(2, (err, result) => {
+    if (err) {
         console.log(err);
-    }else{
+    } else {
         console.log(result);
     }
-    
 });
-
-
-
