@@ -12,14 +12,22 @@ let fetchUsername = (user_id, callback) => {
         } else {
             retArray = [];
             for (let row of result) {
-                let dataObj = {id:}
+                let dataObj = {id: row.id, username: row.username, points: row.points};
+                retArray.push(dataObj);
             }
-            callback(null, JSON.stringify(data));
+            callback(null, JSON.stringify(retArray));
         }
       });
 }
+
+/**
+ *
+ * @param {int} user_id
+ * @param {string} username
+ * @param {function(err,null)} callback
+ */
 let createUsername = (user_id, username, callback) => {
-    database.query(`INSERT INTO username_matching(id, username, points) VALUES (${user_id}, '${username}', ${0})`, (err, result) => {
+    database.query(`INSERT INTO username_matching(id, username, points) VALUES (?, ?, ?)`, [user_id, username, 0],(err, result) => {
         if(err){
             callback(err, null);
         }else{
@@ -39,10 +47,11 @@ let changeUsername = (user_id, username, callback) => {
 }
 
 // FETCH USERNAME TESTS
-fetchUsername(2, (err, result) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(result);
-    }
-});
+// fetchUsername(2, (err, result) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log(result);
+//     }
+// });
+
