@@ -6,7 +6,7 @@ const PostController = require('../Controllers/PostController.js')
 
 router.route('/User')
   .post((req, res) => {
-    PostPostControllers.addUser(req, res);
+    PostPostController.addUser(req, res);
 
   });
 
@@ -17,13 +17,7 @@ router.route('/User')
 //Pages (or Groups)
 
 //Posts
-const testPost = {
-  username: 'jsboss5',
-  post_title: 'The best post ever',
-  post_body: 'I\'m writing the best post ever',
-  page_id : '1',
-  creation_time : '2021-11-06 23:45:02'
-}
+
 router.route('/Posts')
   .post((req, res) => {
     PostController.createPost(req, res);
@@ -32,24 +26,31 @@ router.route('/Posts')
 router.route('/Posts/:id/Comments')
   .get((req, res) => {
     //add this function to posts models
-    //PostControllers.getPostComments(req, res)
+    //PostController.getPostComments(req, res)
+    PostController.getComments(req, res);
   });
 
 router.route('/Posts/:id')
-  .get((req, res) => {
-    PostControllers.getPosts(req, res);
-  })
+  // .get((req, res) => {
+  //   PostController.getSinglePost(req, res);
+  // })
   .delete((req, res) => {
-    PostControllers.deletePost(req, res)
+    PostController.deletePost(req, res)
   })
   .put((req, res) => {
-    PostControllers.editPost(req, res)
+    PostController.editPost(req, res)
   });
 
   //maybe add a flag to points function for increment or decrement- both in same route
-router.route('/Posts/Points/:id')
+  //Req.body needs an increment boolean
+router.route('/Posts/:id/points')
   .put((req, res) => {
-    PostControllers.incrementPoints(req, res)
+    if (req.body.increment) {
+      PostController.incrementPoints(req, res)
+    } else {
+      PostController.decrementPoints(req, res)
+    }
+
   });
 
 
@@ -57,16 +58,16 @@ router.route('/Posts/Points/:id')
 
 router.route('/Comments')
   .get((req, res) => {
-    PostControllers.getComments(req, res)
+    PostController.getComments(req, res)
   })
   .post((req, res) => {
-    PostControllers.createComment(req, res)
+    PostController.createComment(req, res)
   })
   .put((req, res) => {
-    PostControllers.editComment(req, res)
+    PostController.editComment(req, res)
   })
   .delete((req, res) => {
-    PostControllers.deleteComment(req, res)
+    PostController.deleteComment(req, res)
   });
 
 router.route('/')
