@@ -21,10 +21,11 @@ let fetchUsername = (user_id, callback) => {
 }
 
 /**
- *
- * @param {int} user_id
- * @param {string} username
- * @param {function(err,null)} callback
+ * 
+ * @param {*} user_id of username
+ * @param {*} username to be created
+ * @param {*} callback 
+ * Create a username associated to a user id in username_matching table
  */
 let createUsername = (user_id, username, callback) => {
     database.query(`INSERT INTO username_matching(id, username, points) VALUES (?, ?, ?)`, [user_id, username, 0],(err, result) => {
@@ -37,10 +38,11 @@ let createUsername = (user_id, username, callback) => {
 }
 
 /**
- *
- * @param {int} user_id
- * @param {string} username
- * @param {function(err, result)} callback
+ * 
+ * @param {*} user_id of username
+ * @param {*} username to be changed
+ * @param {*} callback 
+ * update a username for a specific user id in username_matching table
  */
 let changeUsername = (user_id, username, callback) => {
     database.query(`UPDATE username_matching SET username = ? WHERE id = ?`, [username, user_id], (err, result) => {
@@ -51,6 +53,29 @@ let changeUsername = (user_id, username, callback) => {
           }
     });
 }
+
+
+/**
+ * 
+ * @param {*} id of username
+ * @param {*} callback 
+ * Delete the username for a specific user id in username_matching table
+ * This deletes the username but does not update to (deleted) in table
+ */
+let deleteUsername = (id, callback) => {
+    database.query(
+        ` DELETE FROM username_matching WHERE id="${id}"`,
+        (err,result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(null, result);
+      }
+    })
+  };
+
+// createUsername(0, 'arjunrao', (err, result) => {
+//     if(err){
 
 // FETCH USERNAME TESTS
 // fetchUsername(2, (err, result) => {
@@ -83,6 +108,19 @@ let changeUsername = (user_id, username, callback) => {
 //         console.log(result);
 //     }
 // })
+
+
+//DELETE USERNAME TESTS
+// deleteUsername(2, (err, result) => {
+//     if(err){
+//         console.log(err);
+//     }else{
+//         console.log(result);
+//     }
+    
+// });
+
+
 
 // CHANGE USERNAME TESTS
 // changeUsername(2, 'zlewitton14', (err, result) => {
