@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const PostController = require('../Controllers/PostController.js')
 const PagesController = require('../Controllers/PagesController.js')
+const CommentsController = require('../Controllers/CommentsController.js')
 
 
 //Users:
@@ -25,16 +26,6 @@ router.route('/Pages')
 router.route('/Pages/:id')
   .get((req, res) => {
     PagesController.getChildPages(req, res);
-  })
-
-//Request body will have increment as a boolean
-router.route('/Pages/:id/postcount')
-  .put((req, res) => {
-    if (req.body.increment) {
-      PagesController.incrementPosts(req, res);
-    } else {
-      PagesController.decrementPosts(req, res);
-    }
   })
 
 router.route('/Pages/:id/posts')
@@ -83,25 +74,28 @@ router.route('/Posts/:id/points')
 //Comments
 
 router.route('/Comments')
-  .get((req, res) => {
-    PostController.getComments(req, res)
-  })
   .post((req, res) => {
-    PostController.createComment(req, res)
+    CommentsController.createComment(req, res)
   })
+
+router.route('/Comments/:id')
   .put((req, res) => {
-    PostController.editComment(req, res)
+    CommentsController.editComment(req, res);
   })
   .delete((req, res) => {
-    PostController.deleteComment(req, res)
-  });
+    CommentsControllers.deleteComment(req, res);
+  })
 
-router.route('/')
+// Req.body needs increment as a boolean
+router.route('Comments/:id/points')
+  .put((req, res) => {
+    if (req.body.increment) {
+      CommentsController.incrementPoints(req, res);
+    } else {
+      CommentsController.decrementPoints(req, res);
+    }
+  })
 
-router.route('/posts')
-  .get((req, res) => {
-
-  });
 
 
   module.exports = router;
