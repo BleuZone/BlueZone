@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const PostController = require('../Controllers/PostController.js')
+const PageController = require('../Controllers/PagesController.js')
 
 
 //Users:
@@ -15,6 +16,26 @@ router.route('/User')
 //   .put((req, res))
 
 //Pages (or Groups)
+
+router.route('/Pages')
+  .post((req, res) => {
+    PageController.createPage(req, res);
+  })
+
+router.route('/Pages/:id')
+  .get((req, res) => {
+    PageController.getChildPages(req, res);
+  })
+
+//Request body will have increment as a boolean
+router.route('/Pages/:id/postcount')
+  .put((req, res) => {
+    if (req.body.increment) {
+      PageController.incrementPosts(req, res);
+    } else {
+      PageController.decrementPosts(req, res);
+    }
+  })
 
 //Posts
 
@@ -75,6 +96,7 @@ router.route('/')
 router.route('/posts')
   .get((req, res) => {
 
-  })
+  });
+
 
   module.exports = router;
