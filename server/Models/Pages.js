@@ -29,7 +29,7 @@ let getChildPages = (parent_id, callback) => {
  * @param {int} page_parent_id
  * @param {function} callback
  */
-let addPage = (page_title, page_parent_id, callback) => {
+let createPage = (page_title, page_parent_id, callback) => {
   database.query(
     `INSERT INTO pages(page_title, page_parent_id, post_count) VALUES (?, ?, 0)`,
     [
@@ -146,4 +146,4 @@ let getTopPage = (callback) => {
 //     }
 //   })
 
-module.exports = {getChildPages, addPage, incrementPostCount, decrementPostCount};
+module.exports = {getChildPages, createPage, incrementPostCount, decrementPostCount};

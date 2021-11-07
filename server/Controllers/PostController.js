@@ -13,7 +13,15 @@ const createPost = (req, res) => {
     if (err) {
       res.sendStatus(400);
     } else {
-      res.status(201).send(result)
+      let postResult = result;
+      pageModel.incrementPostCount(page_id, (err, result) => {
+        if (err) {
+          res.sendStatus(401);
+        } else {
+          res.status(201).send(postResult);
+        }
+      })
+
     }
   })
 }
@@ -37,12 +45,21 @@ const getComments = (req, res) => {
 
 const deletePost = (req, res) => {
   const post_id = req.params.id;
+  const reqBody = req.body;
+  const page_id = reqBody.page_id;
 
   postModel.deletePost(post_id, (err,result) => {
     if (err) {
       res.sendStatus(404);
     } else {
-      res.status(200).send(result)
+      let postResult = result;
+      pageModel.decrementPostCount(page_id, (err, result) => {
+        if (err) {
+          res.sendStatus(401);
+        } else {
+          res.status(201).send(postResult);
+        }
+      })
     }
   })
 }
