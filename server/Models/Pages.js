@@ -145,3 +145,5 @@ let getTopPage = (callback) => {
 //       console.log(result);
 //     }
 //   })
+
+module.exports = {getChildPages, addPage, incrementPostCount, decrementPostCount};

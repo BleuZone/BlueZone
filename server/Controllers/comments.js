@@ -1,1 +1,1 @@
-const models = require('../Models');
+const models = require('../Models/FunctionExports.js');

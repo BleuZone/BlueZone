@@ -117,13 +117,16 @@ const checkUserExists = (user_email, callback) => {
 // );
 
 // DELETE USER TESTS
-deleteUser(
-    6,
-    (err, result) => {
-        if (err) {
-            console.log("Error checking user");
-        } else {
-            console.log(result);
-        }
-    }
-);
+// deleteUser(
+//     6,
+//     (err, result) => {
+//         if (err) {
+//             console.log("Error checking user");
+//         } else {
+//             console.log(result);
+//         }
+//     }
+// );
+
+
+module.exports = {createUser, changePassword, checkUserExists, deleteUser};

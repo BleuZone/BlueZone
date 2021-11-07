@@ -131,4 +131,4 @@ let deleteUsername = (id, callback) => {
 //     }
 // })
 
-
+module.exports = {fetchUsername, createUsername, changeUsername};
