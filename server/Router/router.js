@@ -1,15 +1,15 @@
 const router = require('express').Router();
 const PostController = require('../Controllers/PostController.js')
-const PageController = require('../Controllers/PagesController.js')
+const PagesController = require('../Controllers/PagesController.js')
 
 
 //Users:
 
-router.route('/User')
-  .post((req, res) => {
-    PostPostController.addUser(req, res);
+// router.route('/User')
+//   .post((req, res) => {
+//     PostPostController.addUser(req, res);
 
-  });
+//   });
 
 // router.route('/User/:id')
 //   .delete((req, res))
@@ -19,22 +19,27 @@ router.route('/User')
 
 router.route('/Pages')
   .post((req, res) => {
-    PageController.createPage(req, res);
+    PagesController.createPage(req, res);
   })
 
 router.route('/Pages/:id')
   .get((req, res) => {
-    PageController.getChildPages(req, res);
+    PagesController.getChildPages(req, res);
   })
 
 //Request body will have increment as a boolean
 router.route('/Pages/:id/postcount')
   .put((req, res) => {
     if (req.body.increment) {
-      PageController.incrementPosts(req, res);
+      PagesController.incrementPosts(req, res);
     } else {
-      PageController.decrementPosts(req, res);
+      PagesController.decrementPosts(req, res);
     }
+  })
+
+router.route('/Pages/:id/posts')
+  .get((req, res) => {
+    PagesController.getPosts(req, res);
   })
 
 //Posts
