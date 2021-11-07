@@ -21,10 +21,10 @@ let fetchUsername = (user_id, callback) => {
 }
 
 /**
- * 
+ *
  * @param {*} user_id of username
  * @param {*} username to be created
- * @param {*} callback 
+ * @param {*} callback
  * Create a username associated to a user id in username_matching table
  */
 let createUsername = (user_id, username, callback) => {
@@ -38,10 +38,10 @@ let createUsername = (user_id, username, callback) => {
 }
 
 /**
- * 
+ *
  * @param {*} user_id of username
  * @param {*} username to be changed
- * @param {*} callback 
+ * @param {*} callback
  * update a username for a specific user id in username_matching table
  */
 let changeUsername = (user_id, username, callback) => {
@@ -56,15 +56,15 @@ let changeUsername = (user_id, username, callback) => {
 
 
 /**
- * 
+ *
  * @param {*} id of username
- * @param {*} callback 
+ * @param {*} callback
  * Delete the username for a specific user id in username_matching table
  * This deletes the username but does not update to (deleted) in table
  */
 let deleteUsername = (id, callback) => {
     database.query(
-        ` DELETE FROM username_matching WHERE id="${id}"`,
+        ` DELETE FROM username_matching WHERE id=?`, [id],
         (err,result) => {
       if (err) {
         console.log(err);
@@ -117,7 +117,7 @@ let deleteUsername = (id, callback) => {
 //     }else{
 //         console.log(result);
 //     }
-    
+
 // });
 
 
@@ -131,4 +131,4 @@ let deleteUsername = (id, callback) => {
 //     }
 // })
 
-module.exports = {fetchUsername, createUsername, changeUsername};
+module.exports = {fetchUsername, createUsername, changeUsername, deleteUsername};

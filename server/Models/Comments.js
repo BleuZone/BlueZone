@@ -13,7 +13,7 @@ const getComments = (post_id, callback) => {
     if (err) {
       callback(err, null);
     } else {
-      console.log(result);
+      callback(null, result);
     }
   })
 }
