@@ -162,3 +162,4 @@ let decrementPoints = (post_id, callback) => {
 //   }
 // })
 
+module.exports = {createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints };

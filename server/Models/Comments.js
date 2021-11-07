@@ -212,3 +212,5 @@ const decrementPoints = (comment_id, callback) => {
 //     console.log(result);
 //   }
 // });
+
+module.exports = {getComments, createComment, editComment, deleteComment, incrementPoints, decrementPoints};
