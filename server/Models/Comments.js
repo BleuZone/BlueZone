@@ -13,17 +13,22 @@ const getComments = (post_id, callback) => {
     if (err) {
       callback(err, null);
     } else {
-      callback(null, result);
+      let hash = {};
+      let retArray = []
+      for (let comment of result) {
+        hash[comment.comment_id] = comment;
+        if (comment.parent_id) {
+          hash[comment.parent_id].subComments.push(comment);
+        }
+        if (!comment.parent_id) {
+          retArray.push(comment);
+        }
+      }
+      callback(null, retArray);
     }
   })
 }
 
-let sortComments = (commentArray) => {
-
-  for (let comment of commentArray) {
-
-  }
-}
 
 const recurseQuery = (post_id, callback) => {
   database.query(
@@ -165,11 +170,15 @@ const decrementPoints = (comment_id, callback) => {
   );
 }
 
+
 // getComments(1, (err, result) => {
 //   if (err) {
 //     console.log(err);
 //   } else {
 //     console.log(result);
+//     console.log(result[0].subComments);
+//     console.log(result[0].subComments[0].subComments);
+
 //   }
 // });
 
