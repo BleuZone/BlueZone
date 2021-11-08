@@ -170,6 +170,7 @@ const decrementPoints = (comment_id, callback) => {
   );
 }
 
+
 // getComments(1, (err, result) => {
 //   if (err) {
 //     console.log(err);

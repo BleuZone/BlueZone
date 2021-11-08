@@ -100,6 +100,48 @@ let decrementPoints = (post_id, callback) => {
   });
 }
 
+/**
+ *
+ * @param {int} post_id
+ * @param {function} callback
+ */
+ let incrementCommentCount = (post_id, callback) => {
+  database.query(
+    `UPDATE posts SET comment_count = comment_count + 1 WHERE post_id = ?`,
+    [
+      post_id
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
+/**
+ *
+ * @param {int} post_id
+ * @param {function} callback
+ */
+let decrementCommentCount = (post_id, callback) => {
+  database.query(
+    `UPDATE posts SET comment_count = comment_count - 1 WHERE post_id = ?`,
+    [
+      post_id
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
 
 // GET POSTS TESTS
 // getPosts(1, (err, result) => {
@@ -162,4 +204,22 @@ let decrementPoints = (post_id, callback) => {
 //   }
 // })
 
-module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints };
+// ADD COMMENTS TEST
+// incrementCommentCount(9, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// })
+
+// DELETE COMMENTS TEST
+// decrementCommentCount(9, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// })
+
+module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount };

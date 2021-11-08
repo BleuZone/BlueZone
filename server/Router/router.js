@@ -83,11 +83,11 @@ router.route('/Comments/:id')
     CommentsController.editComment(req, res);
   })
   .delete((req, res) => {
-    CommentsControllers.deleteComment(req, res);
+    CommentsController.deleteComment(req, res);
   })
 
 // Req.body needs increment as a boolean
-router.route('Comments/:id/points')
+router.route('/Comments/:id/points')
   .put((req, res) => {
     if (req.body.increment) {
       CommentsController.incrementPoints(req, res);
