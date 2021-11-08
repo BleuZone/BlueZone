@@ -40,7 +40,14 @@ let createPage = (page_title, page_parent_id, callback) => {
       if (err) {
         callback(err, null)
       } else {
-        callback(null, result)
+        database.query(`SELECT * FROM pages WHERE page_id = LAST_INSERT_ID()`, (err, result) => {
+          if (err) {
+            callback(err, null);
+          } else {
+            let retObj = {...result[0]}
+            callback(null, retObj);
+          }
+        })
       }
     }
   );
@@ -106,13 +113,14 @@ let getTopPage = (callback) => {
   });
 }
 
-// addPage('Clubs', 1, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(result);
-//   }
-// });
+// CREATE PAGE TESTS
+createPage('CS', 2, (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});
 
 // incrementPostCount(1, (err, result) => {
 //   if (err){
