@@ -1,20 +1,21 @@
 const router = require('express').Router();
-const PostController = require('../Controllers/PostController.js')
-const PagesController = require('../Controllers/PagesController.js')
-const CommentsController = require('../Controllers/CommentsController.js')
+const PostController = require('../Controllers/PostController.js');
+const PagesController = require('../Controllers/PagesController.js');
+const CommentsController = require('../Controllers/CommentsController.js');
+const UsersController = require('../Controllers/UsersController.js');
 
 
 //Users:
 
-// router.route('/User')
-//   .post((req, res) => {
-//     PostPostController.addUser(req, res);
+router.route('/User')
+  .post((req, res) => {
+    UsersController.createUser(req,res);
+  })
 
-//   });
-
-// router.route('/User/:id')
-//   .delete((req, res))
-//   .put((req, res))
+router.route('/User/:id')
+  .put((req, res) => {
+    res.send(404);
+  })
 
 //Pages (or Groups)
 
