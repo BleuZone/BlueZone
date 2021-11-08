@@ -33,7 +33,15 @@ let createPost = (post_title, post_body, page_id, creation_time, username, callb
     if (err) {
       callback(err, null)
     } else {
-      callback(null, result)
+      database.query(`SELECT * FROM posts WHERE post_id = LAST_INSERT_ID()`, (err, result) => {
+        if (err) {
+          callback(err, null)
+        } else {
+          let retObj = {...result[0]};
+          callback(null, retObj)
+        }
+      })
+      //callback(null, result)
     }
   })
 };
@@ -160,13 +168,13 @@ let decrementCommentCount = (post_id, callback) => {
 //     console.log(result);
 //   }
 // });
-// createPost('test', 'test', 1, '2021-11-06 16:48:40', 'zlewitton', (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(result);
-//   }
-// })
+createPost('English Department', 'Thoughts on whether the department is any good?', 4, '2021-11-08 16:27:40', 'zlewitton', (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+})
 
 // DELETE POST TESTS
 // deletePost(3, (err, result) => {
