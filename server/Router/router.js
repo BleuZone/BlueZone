@@ -12,6 +12,11 @@ router.route('/User')
     UsersController.createUser(req,res);
   })
 
+router.route('/User/login')
+  .get((req, res) => {
+    UsersController.authenticateUser(req, res);
+  })
+
 router.route('/User/:id')
   .put((req, res) => {
     res.send(404);

@@ -24,5 +24,29 @@ const createUser = (req, res) => {
   });
 }
 
-module.exports = {createUser};
+const authenticateUser = (req, res) => {
+  const reqBody = req.body;
+  const user_email = reqBody.user_email;
+  const user_password= reqBody.user_password;
+  userModel.getEncryptedPassword(user_email, (err, result) => {
+    if(err){
+      res.sendStatus(400);
+    }
+    else{
+      const hash = result.user_password;
+      const user_id = result.id
+      bcrypt.compare(user_password, hash, (err, result) => {
+        if(err) {
+          res.sendStatus(400);
+        } else {
+          res.status(201).send({user_id: user_id});
+        }
+      })
+    }
+  })
+
+
+}
+
+module.exports = {createUser, authenticateUser};
 

@@ -33,7 +33,6 @@ const createUser = (user_email, user_password, callback) => {
       } else {
         callback(null, result);
       }
-
     })
   };
 
@@ -43,18 +42,19 @@ const createUser = (user_email, user_password, callback) => {
  * user_email: string
  * callback: function()
  */
-const checkUserExists = (user_email, callback) => {
+
+const getEncryptedPassword = (user_email, callback) => {
   database.query(
-        `SELECT EXISTS(SELECT * FROM users WHERE user_email='${user_email}')`, (err,result) => {
-      if (err) {
+    `SELECT user_password, id FROM users WHERE user_email = ?`, [user_email], (err,result) => {
+      if(err) {
         console.log(err);
-      } else {
-        const resultObject = result[0];
-        const keys = Object.keys(resultObject);
-        callback(null, resultObject[keys[0]]);
       }
-    })
-  };
+      else {
+        userObject = {id: result[0].id, user_password: result[0].user_password};
+        callback(null, userObject);
+      }
+    });
+}
 
   /**
  * deletes user with given id
@@ -128,5 +128,13 @@ const checkUserExists = (user_email, callback) => {
 //     }
 // );
 
+// GET ENCRYPTED PASSWORD TESTS
+// getEncryptedPassword('arjun@him.com', (err, result) => {
+//   if (err) {
+//     console.log(err)
+//   } else {
+//     console.log(result);
+//   }
+// });
 
-module.exports = {createUser, changePassword, checkUserExists, deleteUser};
+module.exports = {createUser, changePassword, getEncryptedPassword, deleteUser};
