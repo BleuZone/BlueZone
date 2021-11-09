@@ -88,7 +88,15 @@ const createComment = (username, comment, parent_id, post_id, creation_time, cal
     if (err) {
       callback(err, null);
     } else {
-      callback(null, result);
+      database.query(`SELECT * FROM comments where comment_id = LAST_INSERT_ID()`, (err, result) => {
+        if (err) {
+          callback(err, null)
+        } else {
+          let retComment = {...result[0]}
+          callback(null, retComment);
+        }
+      })
+      // callback(null, result);
     }
   });
 };
@@ -182,7 +190,7 @@ const decrementPoints = (comment_id, callback) => {
 //   }
 // });
 
-// createComment('zlewitton', 'this is my second comment', 1, 1, '2021-11-5 20:33:58', (err, result) => {
+// createComment('zlewitton', 'ANOTHER COMMENT', 7, 1, '2021-11-5 19:33:58', (err, result) => {
 //   if (err) {
 //     console.log(err);
 //   } else {
