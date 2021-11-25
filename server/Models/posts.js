@@ -156,6 +156,26 @@ let decrementCommentCount = (post_id, callback) => {
   );
 }
 
+let searchPosts = (search_query, callback) => {
+  let retArray = [];
+  database.query(
+    `SELECT * FROM posts WHERE post_title like ? OR post_body like ?`,
+    [
+      '%' + search_query + '%',
+      '%' + search_query + '%'
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        result.map(row => {
+          retArray.push({ ...row});
+        })
+        callback(null, retArray);
+      }
+    }
+  );
+}
 
 // GET POSTS TESTS
 // getPosts(1, (err, result) => {
@@ -236,4 +256,13 @@ let decrementCommentCount = (post_id, callback) => {
 //   }
 // })
 
-module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount };
+// Search POSTS TESTS
+// searchPosts("bEsT", (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// })
+
+module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts };

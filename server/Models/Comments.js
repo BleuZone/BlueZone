@@ -178,7 +178,25 @@ const decrementPoints = (comment_id, callback) => {
   );
 }
 
-
+const searchComments = (search_query, callback) => {
+  let retArray = [];
+  database.query(
+    `SELECT * FROM comments WHERE comment like ?`,
+    [
+      '%' + search_query + '%'
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        result.map(row => {
+          retArray.push({ ...row});
+        })
+        callback(null, retArray);
+      }
+    }
+  );
+}
 // getComments(1, (err, result) => {
 //   if (err) {
 //     console.log(err);
@@ -230,4 +248,12 @@ const decrementPoints = (comment_id, callback) => {
 //   }
 // });
 
-module.exports = {getComments, createComment, editComment, deleteComment, incrementPoints, decrementPoints};
+searchComments("wodasdfw", (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+})
+
+module.exports = {getComments, createComment, editComment, deleteComment, incrementPoints, decrementPoints, searchComments};
