@@ -5,9 +5,15 @@ let database = require ('../../db/index.js');
  * @param {int} page_id
  * @param {function(err, result)} callback
  */
-let getPosts = (page_id, callback) => {
+let getPosts = (page_id, filter, callback) => {
+  let insert = null;
+  if (filter === 'new') {
+    insert = `creation_time DESC`;
+  } else {
+    insert = `points DESC`;
+  }
   let retArray = [];
-  database.query(`SELECT * FROM posts WHERE page_id=? ORDER BY points DESC`, [page_id], (err,result) => {
+  database.query(`SELECT * FROM posts WHERE page_id=? ORDER BY ${insert}`, [page_id], (err,result) => {
     if (err) {
       callback(err, null);
     } else {
@@ -168,13 +174,13 @@ let decrementCommentCount = (post_id, callback) => {
 //     console.log(result);
 //   }
 // });
-createPost('English Department', 'Thoughts on whether the department is any good?', 4, '2021-11-08 16:27:40', 'zlewitton', (err, result) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }
-})
+// createPost('English Department', 'Thoughts on whether the department is any good?', 4, '2021-11-08 16:27:40', 'zlewitton', (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// })
 
 // DELETE POST TESTS
 // deletePost(3, (err, result) => {

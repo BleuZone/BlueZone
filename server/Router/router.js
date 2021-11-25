@@ -34,6 +34,8 @@ router.route('/Pages/:id')
     PagesController.getChildPages(req, res);
   })
 
+
+//route in the form /Pages/:id/posts?filter=top or /Pages/:id/posts?filter=new
 router.route('/Pages/:id/posts')
   .get((req, res) => {
     PagesController.getPosts(req, res);
