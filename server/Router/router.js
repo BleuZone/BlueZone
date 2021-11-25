@@ -106,7 +106,7 @@ router.route('/Comments/:id/points')
 //Search
 router.route('/Search')
   .get((req, res) => {
-    SearchController.makeSearch(req, res)
+    SearchController.makeSearch(req, res);
   })
 
   module.exports = router;

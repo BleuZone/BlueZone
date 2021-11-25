@@ -20,7 +20,6 @@ const makeSearch = (req, res) => {
         }
         else{
             queryResults.push(...result);
-            console.log(queryResults);
         }
     });
 
