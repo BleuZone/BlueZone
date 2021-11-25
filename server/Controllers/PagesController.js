@@ -14,8 +14,11 @@ const getChildPages = (req, res) => {
 
 const getPosts = (req, res) => {
   const page_id = req.params.id;
+  const filter = req.query.filter; //MAKE LOWERCASE AS FILTER
 
-  postModel.getPosts(page_id, (err, result) => {
+
+
+  postModel.getPosts(page_id, filter, (err, result) => {
     if (err) {
         res.sendStatus(400);
     } else {
