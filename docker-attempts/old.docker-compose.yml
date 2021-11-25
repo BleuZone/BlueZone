@@ -1,0 +1,27 @@
+version: '3.8'
+
+services: 
+  bluezone:
+    image: mysql
+    restart: always
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    ports:
+      - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+
+  app:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    image: bluezone
+    depends_on:
+      - mysqldb
+    stdin_open: true
+    tty: true
+
+volumes: 
+  db-config: 
+  db-data: 
+
