@@ -10,14 +10,14 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', `http://localhost:3000`);
+  res.setHeader('Access-Control-Allow-Origin', `http://localhost:3001`);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   next();
 });
 
 app.use((req, res, next) => {
-  if (req.headers.Authorization === process.env.APIKey) {
+  if (req.headers.authorization === process.env.APIKEY) {
     next()
   } else {
     res.status(403).send({error: 'Invalid API Key'})
