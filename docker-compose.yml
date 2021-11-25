@@ -1,21 +1,18 @@
-version: '3.6'
+version: '3'
+services:
+  bluezone:
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: BLUEZONE
+      MYSQL_DATABASE: bluezone
 
-services: 
-    db:
-        image: mysql
-        command: --default-authentication-plugin=mysql_native_password
-        restart: always
-        environment: 
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: mydb
-            MYSQL_USER: blueZone
-            MYSQL_PASSWORD: BLUEZONE
-    
-        volumes: 
-            - ./init:/docker-entrypoint-initdb.d
-
-    adminer:
-        image: adminer
-        restart: always
-        ports: 
-            - 8080:8080
+  app:
+    build:
+      context: .
+      dockerfile: ../Dockerfile
+    image: bluezone
+    depends_on:
+      - bluezone
+    stdin_open: true
+    tty: true
