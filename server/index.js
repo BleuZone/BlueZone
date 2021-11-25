@@ -16,6 +16,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  if (req.headers.Authorization === process.env.APIKey) {
+    next()
+  } else {
+    res.status(403).send({error: 'Invalid API Key'})
+  }
+})
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
