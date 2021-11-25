@@ -3,7 +3,7 @@ const PostController = require('../Controllers/PostController.js');
 const PagesController = require('../Controllers/PagesController.js');
 const CommentsController = require('../Controllers/CommentsController.js');
 const UsersController = require('../Controllers/UsersController.js');
-
+const SearchController = require('../Controllers/SearchController.js');
 
 //Users:
 
@@ -78,7 +78,6 @@ router.route('/Posts/:id/points')
 
   });
 
-
 //Comments
 
 router.route('/Comments')
@@ -104,6 +103,10 @@ router.route('/Comments/:id/points')
     }
   })
 
-
+//Search
+router.route('/Search')
+  .get((req, res) => {
+    SearchController.makeSearch(req, res)
+  })
 
   module.exports = router;
