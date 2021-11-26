@@ -2,8 +2,9 @@ version: '3'
 services:
   bluezone:
     image: mysql/mysql-server:8.0
+    env_file: ./.env
     environment:
-      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_HOST: root
       MYSQL_ROOT_PASSWORD: BLUEZONE
       MYSQL_DATABASE: bluezone
 
