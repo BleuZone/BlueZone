@@ -67,7 +67,7 @@ let deleteUsername = (id, callback) => {
         ` DELETE FROM username_matching WHERE id=?`, [id],
         (err,result) => {
       if (err) {
-        console.log(err);
+        callback(err, null);
       } else {
         callback(null, result);
       }

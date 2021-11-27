@@ -248,12 +248,12 @@ const searchComments = (search_query, callback) => {
 //   }
 // });
 
-searchComments("wodasdfw", (err, result) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }
-})
+// searchComments("wodasdfw", (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// })
 
 module.exports = {getComments, createComment, editComment, deleteComment, incrementPoints, decrementPoints, searchComments};
