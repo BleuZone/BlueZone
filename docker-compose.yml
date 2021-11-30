@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+  db:
+    image: "bluezone"
+    environment: 
+      MYSQL_ROOT_PASSWORD: BLUEZONE
+    volumes:
+      - db-data:/blue
+
+volumes:
+  db-data:
