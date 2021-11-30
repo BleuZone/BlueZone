@@ -1,4 +1,6 @@
+const e = require('express');
 let database = require ('../../db/index.js');
+const { report } = require('../Router/router.js');
 
 /**
  *
@@ -177,6 +179,111 @@ let searchPosts = (search_query, callback) => {
   );
 }
 
+/**
+ * This function moves the report either to the reported or posts table
+ * @param {int} post_id
+ * @param {boolean} reported 
+ * @param {function} callback
+ */
+ let moveReportedPost = (post_id, reported, callback) => {
+   if(reported == true){
+    database.query(
+      `INSERT INTO reported SELECT * FROM posts WHERE post_id = ?`,
+      [
+        post_id,
+      ],
+      (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      }
+    );
+   }
+   else{
+     database.query(
+    `INSERT INTO posts SELECT * FROM reported WHERE post_id = ?`,
+    [
+      post_id,
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+
+   }
+}
+
+/**
+ * This function moves the post to the correct table and deletes it from the last
+ * @param {int} post_id
+ * @param {boolean} reported 
+ * @param {function} callback
+ */
+ let reportPost = (post_id, reported, callback) => {
+   moveReportedPost(post_id, reported);
+   if(reported == true){
+    database.query(
+      `DELETE FROM posts WHERE post_id =?`,
+      [
+        post_id,
+        
+      ],
+      (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      }
+    );
+   }
+   else{
+    database.query(
+      `DELETE FROM reported WHERE post_id =?`,
+      [
+        post_id,
+        
+      ],
+      (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      }
+    );
+   }
+}
+
+// REPORT POSTS TESTS
+
+//moveReportedPost(6, true, (err,result) => {
+//  if(err){
+//    console.log(err);
+//  }
+//  else{
+//    console.log(result);
+//  }
+//})
+
+//reportPost(8,true,(err,result) => {
+//  if(err){
+//    console.log(err);
+//  }
+//  else{
+//    console.log(result);
+//  }
+//})
+
+    
+
+
 // GET POSTS TESTS
 // getPosts(1, (err, result) => {
 //   if (err) {
@@ -265,4 +372,4 @@ let searchPosts = (search_query, callback) => {
 //   }
 // })
 
-module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts };
+module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts, reportPost };
