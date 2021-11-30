@@ -47,7 +47,7 @@ const getEncryptedPassword = (user_email, callback) => {
   database.query(
     `SELECT user_password, id FROM users WHERE user_email = ?`, [user_email], (err,result) => {
       if(err) {
-        console.log(err);
+        callback(err, null);
       }
       else {
         userObject = {id: result[0].id, user_password: result[0].user_password};

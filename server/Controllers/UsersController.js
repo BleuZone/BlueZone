@@ -1,4 +1,4 @@
-const { userModel, usernameModel, postModel, pageModel, commentModel } = require('../Models/FunctionExports.js');
+const { userModel, usernameModel, postModel, pageModel, commentModel, saveModel } = require('../Models/FunctionExports.js');
 const bcrypt = require('bcrypt');
 
 
@@ -27,26 +27,78 @@ const createUser = (req, res) => {
 const authenticateUser = (req, res) => {
   const reqBody = req.body;
   const user_email = reqBody.user_email;
-  const user_password= reqBody.user_password;
+  const user_password= reqBody.password;
   userModel.getEncryptedPassword(user_email, (err, result) => {
     if(err){
-      res.sendStatus(400);
+      res.status(400).send({error : "Could not get password for user"});
     }
     else{
-      const hash = result.user_password;
+      let hash = result.user_password;
       const user_id = result.id
       bcrypt.compare(user_password, hash, (err, result) => {
         if(err) {
-          res.sendStatus(400);
+          res.status(400).send({error: "Passwords do not match"})
         } else {
           res.status(201).send({user_id: user_id});
         }
       })
     }
   })
-
-
 }
 
-module.exports = {createUser, authenticateUser};
+const saveData = (req, res) => {
+  const reqBody = req.body;
+  const user_id = req.params.id;
+  const post_id = reqBody.post_id || null;
+  const comment_id = reqBody.comment_id || null;
+
+  saveModel.saveData(user_id, post_id, comment_id, (err, result) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      res.status(201).send(result);
+    }
+  })
+}
+
+const getSaved = (req, res) => {
+  const reqBody = req.body;
+  const user_id = req.params.id;
+  const dataType = parseInt(req.query.type);
+
+  if (dataType === 1) {
+    saveModel.getSavedPosts(user_id, (err, result) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        res.status(200).send(result);
+      }
+    })
+  } else if (dataType === 2) {
+    saveModel.getSavedComments(user_id, (err, result) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        res.status(200).send(result)
+      }
+    })
+  } else {
+    res.status(404).send({error: 'dataType did not match 1 or 2', dataType: dataType});
+  }
+}
+
+const deleteSave = (req, res) => {
+  const reqBody = req.body;
+  const save_id = reqBody.save_id;
+
+  saveModel.deleteSave(save_id, (err, result) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(200).send(result);
+    }
+  })
+}
+
+module.exports = {createUser, authenticateUser, saveData, getSaved, deleteSave };
 
