@@ -43,6 +43,17 @@ router.route('/Pages/:id/posts')
 
 //Posts
 
+router.route('/Posts/:id')
+
+.post((req,res) => {
+  if(req.body.reported){
+    PostController.reportPost(req,res)
+  }
+  else{
+    PostController.unreportPost(req,res)
+  }
+});
+
 router.route('/Posts')
   .post((req, res) => {
     PostController.createPost(req, res);

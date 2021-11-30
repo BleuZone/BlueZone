@@ -156,7 +156,7 @@ let decrementCommentCount = (post_id, callback) => {
       }
     }
   );
-}
+};
 
 let searchPosts = (search_query, callback) => {
   let retArray = [];
@@ -177,16 +177,52 @@ let searchPosts = (search_query, callback) => {
       }
     }
   );
-}
+};
 
 /**
  * This function moves the report either to the reported or posts table
  * @param {int} post_id
- * @param {boolean} reported 
  * @param {function} callback
  */
- let moveReportedPost = (post_id, reported, callback) => {
-   if(reported == true){
+ let unreportPost = (post_id, callback) => {
+     database.query(
+    `INSERT INTO posts SELECT * FROM reported WHERE post_id = ?`,[post_id,],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+/**
+ * This function deletes a reported post from the reported table
+ * @param {int} post_id
+ * @param {function} callback
+ */
+ let deleteReportedPost = (post_id, callback) => {
+  database.query(
+ `DELETE FROM reported WHERE post_id = ?`,
+ [
+   post_id,
+ ],
+ (err, result) => {
+  if (err) {
+    callback(err, null);
+  } else {
+    callback(null, result);
+  }
+});
+}
+
+/**
+ * This function moves the post to the correct table and deletes it from the last
+ * @param {int} post_id
+ * @param {function} callback
+ */
+ let reportPost = (post_id, callback) => {
     database.query(
       `INSERT INTO reported SELECT * FROM posts WHERE post_id = ?`,
       [
@@ -200,70 +236,20 @@ let searchPosts = (search_query, callback) => {
         }
       }
     );
-   }
-   else{
-     database.query(
-    `INSERT INTO posts SELECT * FROM reported WHERE post_id = ?`,
-    [
-      post_id,
-    ],
-    (err, result) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, result);
-      }
-    }
-  );
-
-   }
-}
-
-/**
- * This function moves the post to the correct table and deletes it from the last
- * @param {int} post_id
- * @param {boolean} reported 
- * @param {function} callback
- */
- let reportPost = (post_id, reported, callback) => {
-   moveReportedPost(post_id, reported);
-   if(reported == true){
-    database.query(
-      `DELETE FROM posts WHERE post_id =?`,
-      [
-        post_id,
-        
-      ],
-      (err, result) => {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, result);
-        }
-      }
-    );
-   }
-   else{
-    database.query(
-      `DELETE FROM reported WHERE post_id =?`,
-      [
-        post_id,
-        
-      ],
-      (err, result) => {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, result);
-        }
-      }
-    );
-   }
-}
+  }
 
 // REPORT POSTS TESTS
 
-//moveReportedPost(6, true, (err,result) => {
+//deleteReportedPost(10,(err,result) => {
+//  if(err){
+//    console.log(err);
+//  }
+//  else{
+//    console.log(result);
+//  }
+//})
+
+//unreportPost(6, true, (err,result) => {
 //  if(err){
 //    console.log(err);
 //  }
@@ -372,4 +358,4 @@ let searchPosts = (search_query, callback) => {
 //   }
 // })
 
-module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts, reportPost };
+module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts, reportPost, deleteReportedPost,unreportPost };
