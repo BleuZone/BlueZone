@@ -35,7 +35,7 @@ app.use((req, res, next) => {
   if (req.headers.authorization === process.env.APIKEY) {
     next()
   } else {
-    res.status(403).send({error: 'Invalid API Key', APIK: process.env.APIKEY, Key: req.headers.authorization || 'req headers auth is null', log: req.headers})
+    res.status(403).send({error: 'Invalid API Key'})
   }
 })
 
