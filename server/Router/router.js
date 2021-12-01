@@ -50,9 +50,23 @@ router.route('/Pages/:id/posts')
 
 //Posts
 
+router.route('/Posts/:id/reported')
+
+.post((req,res) => {
+  if(req.body.reported){
+    PostController.reportPost(req,res)
+  }
+  else{
+    PostController.unreportPost(req,res)
+  }
+});
+
 router.route('/Posts')
   .post((req, res) => {
     PostController.createPost(req, res);
+  })
+  .get((req,res) => {
+    PostController.getReportedPosts(req,res);
   });
 
 router.route('/Posts/:id/Comments')
