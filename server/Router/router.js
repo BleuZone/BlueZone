@@ -57,6 +57,9 @@ router.route('/Posts/:id')
 router.route('/Posts')
   .post((req, res) => {
     PostController.createPost(req, res);
+  })
+  .get((req,res) => {
+    PostController.getReportedPosts(req,res);
   });
 
 router.route('/Posts/:id/Comments')

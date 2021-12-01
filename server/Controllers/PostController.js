@@ -136,10 +136,8 @@ const decrementPoints = (req, res) => {
 
   postModel.deleteReportedPost(post_id, (err,result) => {
     if (err) {
-      console.log("here");
       res.sendStatus(204);
     } else {
-      console.log("Here");
       res.status(201).send(result)
     }
   })
@@ -168,5 +166,22 @@ const decrementPoints = (req, res) => {
   })
 }
 
+/**
+ * This function returns all reported posts
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const getReportedPosts = (req,res) => {
+  const post_id = req.params.id;
 
-module.exports = {createPost, deletePost, getComments, editPost, incrementPoints, decrementPoints, deleteReportedPost,reportPost, unreportPost};
+  postModel.getReportedPosts((err,result) => {
+    if (err) {
+      res.sendStatus(204);
+    } else {
+      res.status(201).send(result)
+    }
+  })
+}
+
+
+module.exports = {createPost, deletePost, getComments, editPost, incrementPoints, decrementPoints, deleteReportedPost,reportPost, unreportPost, getReportedPosts};
