@@ -43,7 +43,7 @@ router.route('/Pages/:id/posts')
 
 //Posts
 
-router.route('/Posts/:id')
+router.route('/Posts/:id/reported')
 
 .post((req,res) => {
   if(req.body.reported){
