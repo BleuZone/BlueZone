@@ -3,7 +3,7 @@ const PostController = require('../Controllers/PostController.js');
 const PagesController = require('../Controllers/PagesController.js');
 const CommentsController = require('../Controllers/CommentsController.js');
 const UsersController = require('../Controllers/UsersController.js');
-const SearchController = require('../Controllers/SearchController.js');
+
 
 //Users:
 
@@ -17,9 +17,16 @@ router.route('/User/login')
     UsersController.authenticateUser(req, res);
   })
 
-router.route('/User/:id')
-  .put((req, res) => {
-    res.send(404);
+router.route('/User/:id/save')
+  .post((req, res) => {
+    UsersController.saveData(req, res);
+  })
+  // get request is /User/:id/save?type=1 for posts or /User/:id/save?type=2 for comments
+  .get((req, res) => {
+    UsersController.getSaved(req, res);
+  })
+  .delete((req, res) => {
+    UsersController.deleteSave(req, res);
   })
 
 //Pages (or Groups)
