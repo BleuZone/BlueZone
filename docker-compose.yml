@@ -1,15 +1,23 @@
 version: '3'
+
 services:
   web:
     build: .
     ports:
-      - "8080:8080"
+      - 5000:8080
+    expose:
+      - 5000
+    depends_on:
+      - db
+
   db:
-    image: "bluezone"
-    environment: 
-      MYSQL_ROOT_PASSWORD: BLUEZONE
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=BLUEZONE
+    ports:
+      - 3306:3306
     volumes:
-      - db-data:/foo
+      - db-data:/var/lib/mysql
 
 volumes:
   db-data:

@@ -178,13 +178,13 @@ let searchPosts = (search_query, callback) => {
 }
 
 // GET POSTS TESTS
-// getPosts(1, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(result);
-//   }
-// })
+ getPosts(1, (err, result) => {
+   if (err) {
+     console.log(err);
+   } else {
+     console.log(result);
+   }
+ })
 
 // CREATE POST TESTS (post_title, post_body, page_id, creation_time, username, callback)
 // createPost('My second post!', 'I cannot believe this is the seocnd post I have ever created!!! What a joy. Is this site this great for you too? I cannot believe how good it is. I want to; SELECT * FROM USERS. I love this website so so much. Dont you? ???? ??? -- DROP TABLE pages.', 1, '2021-11-5 16:34:07', 'zlewitton', (err, result) => {

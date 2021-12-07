@@ -114,13 +114,13 @@ let getTopPage = (callback) => {
 }
 
 // CREATE PAGE TESTS
-// createPage('CS', 2, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(result);
-//   }
-// });
+createPage('CS', 2, (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});
 
 // incrementPostCount(1, (err, result) => {
 //   if (err){
