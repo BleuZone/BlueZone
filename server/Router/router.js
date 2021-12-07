@@ -3,7 +3,7 @@ const PostController = require('../Controllers/PostController.js');
 const PagesController = require('../Controllers/PagesController.js');
 const CommentsController = require('../Controllers/CommentsController.js');
 const UsersController = require('../Controllers/UsersController.js');
-const SearchController = require('../Controllers/SearchController.js');
+
 
 //Users:
 
@@ -17,9 +17,16 @@ router.route('/User/login')
     UsersController.authenticateUser(req, res);
   })
 
-router.route('/User/:id')
-  .put((req, res) => {
-    res.send(404);
+router.route('/User/:id/save')
+  .post((req, res) => {
+    UsersController.saveData(req, res);
+  })
+  // get request is /User/:id/save?type=1 for posts or /User/:id/save?type=2 for comments
+  .get((req, res) => {
+    UsersController.getSaved(req, res);
+  })
+  .delete((req, res) => {
+    UsersController.deleteSave(req, res);
   })
 
 //Pages (or Groups)
@@ -43,9 +50,23 @@ router.route('/Pages/:id/posts')
 
 //Posts
 
+router.route('/Posts/:id/reported')
+
+.post((req,res) => {
+  if(req.body.reported){
+    PostController.reportPost(req,res)
+  }
+  else{
+    PostController.unreportPost(req,res)
+  }
+});
+
 router.route('/Posts')
   .post((req, res) => {
     PostController.createPost(req, res);
+  })
+  .get((req,res) => {
+    PostController.getReportedPosts(req,res);
   });
 
 router.route('/Posts/:id/Comments')
