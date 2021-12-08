@@ -115,6 +115,23 @@ let getTopPage = (callback) => {
   });
 }
 
+/**
+ *
+ * @param {*} page_id
+ * @param {function(null, Array[object])} callback
+ */
+ let getPageById = (page_id, callback) => {
+  database.query(`SELECT * FROM Pages WHERE page_id = ?`, [page_id],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    });
+}
+
+
 // CREATE PAGE TESTS
 // createPage('CS', 2, 'For comp sci stuff', (err, result) => {
 //   if (err) {
@@ -156,4 +173,4 @@ let getTopPage = (callback) => {
 //     }
 //   })
 
-module.exports = {getChildPages, createPage, incrementPostCount, decrementPostCount};
+module.exports = {getChildPages, createPage, incrementPostCount, decrementPostCount, getPageById};

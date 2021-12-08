@@ -42,5 +42,17 @@ const createPage = (req,res) => {
     })
 }
 
+const getPageById = (req, res) => {
+  const page_id = req.params.id;
 
-module.exports = {getChildPages,createPage, getPosts};
+  pageModel.getPageById(page_id, (err, result) => {
+    if (err) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(result);
+    }
+  })
+}
+
+
+module.exports = {getChildPages,createPage, getPosts, getPageById};

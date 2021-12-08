@@ -48,6 +48,12 @@ router.route('/Pages')
   .post((req, res) => {
     PagesController.createPage(req, res);
   })
+  
+router.route('/Pages/all/:id')
+  .get((req, res) => {
+    PagesController.getPageById(req, res);
+  })
+
 
 router.route('/Pages/:id')
   .get((req, res) => {
