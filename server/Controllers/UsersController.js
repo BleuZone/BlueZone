@@ -100,5 +100,48 @@ const deleteSave = (req, res) => {
   })
 }
 
-module.exports = {createUser, authenticateUser, saveData, getSaved, deleteSave };
+const getId = (req, res) => {
+  const reqBody = req.body;
+  const email = reqBody.email;
+
+  userModel.getId(email, (err, result) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(200).send(result);
+    }
+  })
+}
+
+const getUsername = (req, res) => {
+  const user_id = req.params.id;
+
+  userModel.getUsername(user_id, (err, result) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(200).send(result);
+    }
+  })
+}
+
+/**
+ * This function returns all posts of a user given the username
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const getAllUserPosts = (req,res) => {
+  const reqBody = req.body;
+  const username = reqBody.username;
+
+  userModel.getAllUserPosts(username,(err,result) => {
+    if (err) {
+      res.sendStatus(204);
+    } else {
+      res.status(201).send(result)
+    }
+    })
+  }
+
+module.exports = {createUser, authenticateUser, saveData, getSaved, deleteSave, getUsername, getId, getAllUserPosts };
 
