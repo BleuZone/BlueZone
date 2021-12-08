@@ -6,13 +6,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.NODE_DOCKER_PORT || 3001;
 
-let corsOptions = {
-  origin: 'http://localhost:3000/',
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'],
-  allowedHeaders: ['X=Requested-With', 'Authorization', 'content-type', 'Origin', 'X-Auth-Token'],
-  credentials: true,
-  optionsSuccessStatus: 200
-}
 
 
 app.use(bodyParser.urlencoded());
