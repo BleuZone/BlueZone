@@ -50,6 +50,20 @@ CREATE TABLE comments (
   PRIMARY KEY (comment_id)
 );
 
+CREATE TABLE reported (
+  post_id INT NOT NULL,
+  post_title varchar(255) NOT NULL,
+  post_body TEXT,
+  points INT NOT NULL,
+  page_id INT NOT NULL,
+  creation_time TIMESTAMP NOT NULL,
+  comment_count int NOT NULL,
+  username varchar(255),
+  FOREIGN KEY (username) REFERENCES username_matching(username),
+  FOREIGN KEY (page_id) REFERENCES pages(page_id),
+  PRIMARY KEY (post_id)
+);
+
 CREATE TABLE saving (
   save_id INT NOT NULL AUTO_INCREMENT,
   user_id INT NOT NULL,

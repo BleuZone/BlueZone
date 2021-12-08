@@ -1,20 +1,28 @@
 require('dotenv').config()
 const express = require('express');
+const cors = require('cors')
 const router = require('./Router/router.js');
 const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.NODE_DOCKER_PORT || 3001;
 
 
+
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', `http://localhost:3001`);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  next();
-});
+// app.use(corsOptions)
+
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', `http://localhost:3000`);
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization', 'Origin', 'X-Auth-Token');
+//   next();
+
+// });
+
+app.use(cors());
 
 app.use((req, res, next) => {
   if (req.headers.authorization === process.env.APIKEY) {

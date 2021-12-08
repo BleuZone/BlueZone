@@ -1,4 +1,6 @@
+const e = require('express');
 let database = require ('../../db/index.js');
+const { report } = require('../Router/router.js');
 
 /**
  *
@@ -154,7 +156,7 @@ let decrementCommentCount = (post_id, callback) => {
       }
     }
   );
-}
+};
 
 let searchPosts = (search_query, callback) => {
   let retArray = [];
@@ -175,7 +177,146 @@ let searchPosts = (search_query, callback) => {
       }
     }
   );
+};
+
+/**
+ * This function moves the report either to the reported or posts table
+ * @param {int} post_id
+ * @param {function} callback
+ */
+ let unreportPost = (post_id, callback) => {
+     database.query(
+    `INSERT INTO posts SELECT * FROM reported WHERE post_id = ?`,[post_id,],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+/**
+ * This function deletes a reported post from the reported table
+ * @param {int} post_id
+ * @param {function} callback
+ */
+ let deleteReportedPost = (post_id, callback) => {
+  database.query(
+ `DELETE FROM reported WHERE post_id = ?`,
+ [
+   post_id,
+ ],
+ (err, result) => {
+  if (err) {
+    callback(err, null);
+  } else {
+    callback(null, result);
+  }
+});
 }
+
+/**
+ * This function moves the post to the correct table and deletes it from the last
+ * @param {int} post_id
+ * @param {function} callback
+ */
+ let reportPost = (post_id, callback) => {
+    database.query(
+      `INSERT INTO reported SELECT * FROM posts WHERE post_id = ?`,
+      [
+        post_id,
+      ],
+      (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      }
+    );
+  }
+
+/**
+ *
+ * This function returns the reported posts
+ * @param {function(err, result)} callback
+ */
+ let getReportedPosts = (callback) => {
+
+  let retArray = [];
+  database.query(`SELECT * FROM reported `, (err,result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      result.map((row) => {
+        retArray.push({ ...row});
+      })
+      callback(null, retArray);
+    }
+  })
+};
+
+/**
+ *
+ * This function returns the reported posts
+ * @param {function(err, result)} callback
+ */
+ let getAllPosts = (callback) => {
+  let retArray = [];
+  database.query(`SELECT * FROM posts `, (err,result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      result.map((row) => {
+        retArray.push({ ...row});
+      })
+      callback(null, retArray);
+    }
+  })
+};
+
+// REPORT POSTS TESTS
+
+//getReportedPosts((err,result) => {
+//  if(err){
+//    console.loge(err);
+//  }
+//  else{
+//    console.log(result);
+//  }
+//});
+
+//deleteReportedPost(10,(err,result) => {
+//  if(err){
+//    console.log(err);
+//  }
+//  else{
+//    console.log(result);
+//  }
+//})
+
+//unreportPost(6, true, (err,result) => {
+//  if(err){
+//    console.log(err);
+//  }
+//  else{
+//    console.log(result);
+//  }
+//})
+
+//reportPost(8,true,(err,result) => {
+//  if(err){
+//    console.log(err);
+//  }
+//  else{
+//    console.log(result);
+//  }
+//})
+
+    
+
 
 // GET POSTS TESTS
 // getPosts(1, (err, result) => {
@@ -265,4 +406,4 @@ let searchPosts = (search_query, callback) => {
 //   }
 // })
 
-module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts };
+module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts, reportPost, deleteReportedPost,unreportPost, getReportedPosts, getAllPosts};

@@ -103,4 +103,99 @@ const decrementPoints = (req, res) => {
   })
 }
 
-module.exports = {createPost, deletePost, getComments, editPost, incrementPoints, decrementPoints};
+/**
+ * This function unreports a post and moves it back
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const reportPost = (req,res) => {
+  const post_id = req.params.id;
+  postModel.reportPost(post_id, (err,result) => {
+    if (err) {
+      res.sendStatus("This post does not exist in the posts, it may be reported already.");
+    } else {
+      let postResult = result;
+      postModel.deletePost(post_id, (err, result) => {
+        if (err) {
+          res.sendStatus(401).send("This post does not exist in the posts, it may be reported already. Cannot be deleted.");
+        } else {
+          res.status(201).send(result);
+        }
+      })
+    }
+  })
+}
+
+/**
+ * This function reports a post and moves it from the post table to the reported table
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const deleteReportedPost = (req,res) => {
+  const post_id = req.params.id;
+
+  postModel.deleteReportedPost(post_id, (err,result) => {
+    if (err) {
+      res.sendStatus(204);
+    } else {
+      res.status(201).send(result)
+    }
+  })
+}
+
+/**
+ * This function unreports a post and moves it back
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const unreportPost = (req,res) => {
+  const post_id = req.params.id;
+  postModel.unreportPost(post_id, (err,result) => {
+    if (err) {
+      res.sendStatus(404).send("The post is not already reported");
+    } else {
+      let postResult = result;
+      postModel.deleteReportedPost(post_id, (err, result) => {
+        if (err) {
+          res.sendStatus(401).send("The post is not already reported");
+        } else {
+          res.status(201).send(result);
+        }
+      })
+    }
+  })
+}
+
+/**
+ * This function returns all reported posts
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const getReportedPosts = (req,res) => {
+  postModel.getReportedPosts((err,result) => {
+    if (err) {
+      res.sendStatus(204);
+    } else {
+      res.status(201).send(result)
+    }
+  })
+}
+
+/**
+ * This function returns all reported posts
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const getAllPosts = (req,res) => {
+  postModel.getAllPosts((err,result) => {
+    if (err) {
+      res.sendStatus(204);
+    } else {
+      res.status(201).send(result)
+    }
+  })
+}
+
+
+
+module.exports = {createPost, deletePost, getComments, editPost, incrementPoints, decrementPoints, deleteReportedPost,reportPost, unreportPost, getReportedPosts, getAllPosts};
