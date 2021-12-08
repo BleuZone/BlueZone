@@ -70,6 +70,11 @@ router.route('/Posts/:id/reported')
   }
 });
 
+router.route('/Posts/all')
+  .get((req,res) => {
+    PostController.getAllPosts(req,res);
+  });
+
 router.route('/Posts')
   .post((req, res) => {
     PostController.createPost(req, res);

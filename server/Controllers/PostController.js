@@ -172,8 +172,6 @@ const decrementPoints = (req, res) => {
  * @param {*} res 
  */
  const getReportedPosts = (req,res) => {
-  const post_id = req.params.id;
-
   postModel.getReportedPosts((err,result) => {
     if (err) {
       res.sendStatus(204);
@@ -183,5 +181,20 @@ const decrementPoints = (req, res) => {
   })
 }
 
+/**
+ * This function returns all reported posts
+ * @param {*} req 
+ * @param {*} res 
+ */
+ const getAllPosts = (req,res) => {
+  postModel.getAllPosts((err,result) => {
+    if (err) {
+      res.sendStatus(204);
+    } else {
+      res.status(201).send(result)
+    }
+  })
+}
 
-module.exports = {createPost, deletePost, getComments, editPost, incrementPoints, decrementPoints, deleteReportedPost,reportPost, unreportPost, getReportedPosts};
+
+module.exports = {createPost, deletePost, getComments, editPost, incrementPoints, decrementPoints, deleteReportedPost,reportPost, unreportPost, getReportedPosts, getAllPosts};
