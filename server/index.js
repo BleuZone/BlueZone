@@ -4,7 +4,7 @@ const cors = require('cors')
 const router = require('./Router/router.js');
 const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.NODE_LOCAL_PORT || 3001;
 
 let corsOptions = {
   origin: 'http://localhost:3000/',

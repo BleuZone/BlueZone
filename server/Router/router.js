@@ -13,7 +13,7 @@ router.route('/User')
   })
 
 router.route('/User/login')
-  .get((req, res) => {
+  .post((req, res) => {
     UsersController.authenticateUser(req, res);
   })
 
