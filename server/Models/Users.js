@@ -107,6 +107,41 @@ const getEncryptedPassword = (user_email, callback) => {
     })
   };
 
+    /**
+ * gets all posts from a user given username
+ * callback: function()
+ */
+  const getAllUserPosts = (username, callback) => {
+    let retArray = [];
+    database.query(
+        ` SELECT * FROM posts WHERE username=?`, [username],
+        (err,result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        result.map((row) => {
+          retArray.push({ ...row});
+        })
+        callback(null, retArray);
+      }
+    })
+  };
+
+
+// GET ALL USER POSTS TESTS
+  
+// getAllUserPosts(
+//     'zlewitton',
+//     (err, result) => {
+//         if (err) {
+//             console.log("Error creating user");
+//         } else {
+//             console.log('Success! ', result);
+//         }
+//     }
+// );
+
+
   //  when they delete user, really it should delete the usernames, and then change the posts associated with that user
 
 // CREATE USER TESTS
@@ -170,4 +205,4 @@ const getEncryptedPassword = (user_email, callback) => {
 //   }
 // });
 
-module.exports = {createUser, changePassword, getEncryptedPassword, deleteUser, getId, getUsername};
+module.exports = {createUser, changePassword, getEncryptedPassword, deleteUser, getId, getUsername, getAllUserPosts};

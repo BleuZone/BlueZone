@@ -197,4 +197,5 @@ const decrementPoints = (req, res) => {
 }
 
 
+
 module.exports = {createPost, deletePost, getComments, editPost, incrementPoints, decrementPoints, deleteReportedPost,reportPost, unreportPost, getReportedPosts, getAllPosts};
