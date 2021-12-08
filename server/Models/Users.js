@@ -11,7 +11,14 @@ const createUser = (user_email, user_password, callback) => {
       if (err) {
         callback(err, null);
       } else {
-        callback(null, result);
+        database.query(`SELECT id, user_email FROM users WHERE id = LAST_INSERT_ID()`, (err, result) => {
+          if (err) {
+            callback(err, null)
+          } else {
+            let retObj = {...result[0]};
+            callback(null, retObj)
+          }
+        })
       }
     })
   };
