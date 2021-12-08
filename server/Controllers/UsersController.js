@@ -159,5 +159,6 @@ const getUsername = (req, res) => {
     })
   }
 
-module.exports = {createUser, authenticateUser, saveData, getSaved, deleteSave, getUsername, getId, getAllUserPosts };
+
+module.exports = {createUser, authenticateUser, saveData, getSaved, deleteSave, getUsername, getId, getAllUserPosts, createUsername };
 
