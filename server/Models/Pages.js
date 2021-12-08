@@ -27,17 +27,16 @@ let getChildPages = (parent_id, callback) => {
  *
  * @param {String} page_title
  * @param {int} page_parent_id
- * @param {String} description
+ * @param {String} page_description
  * @param {function} callback
  */
-let createPage = (page_title, page_parent_id, description, callback) => {
-  console.log(page_title);
+let createPage = (page_title, page_parent_id, page_description, callback) => {
   database.query(
-    `INSERT INTO pages(page_title, page_parent_id, post_count, description) VALUES (?, ?, 0, ?)`,
+    `INSERT INTO pages(page_title, page_parent_id, post_count, page_description) VALUES (?, ?, 0, ?)`,
     [
       page_title,
       page_parent_id,
-      description
+      page_description
     ],
     (err, result) => {
       if (err) {
@@ -117,13 +116,13 @@ let getTopPage = (callback) => {
 }
 
 // CREATE PAGE TESTS
-createPage('CS', 2, 'For comp sci stuff', (err, result) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }
-});
+// createPage('CS', 2, 'For comp sci stuff', (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
 
 // incrementPostCount(1, (err, result) => {
 //   if (err){
