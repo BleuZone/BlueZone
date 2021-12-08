@@ -100,5 +100,21 @@ const deleteSave = (req, res) => {
   })
 }
 
-module.exports = {createUser, authenticateUser, saveData, getSaved, deleteSave };
+const createUsername = (req, res) => {
+  const reqBody = req.body;
+  const user_id = req.params.id;
+  const username = reqBody.username;
+
+  usernameModel.createUsername(user_id, username, (err, result) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(200).send(result);
+    }
+  })
+}
+
+
+
+module.exports = {createUser, authenticateUser, saveData, getSaved, deleteSave, createUsername };
 
