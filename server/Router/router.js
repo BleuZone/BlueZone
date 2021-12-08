@@ -30,6 +30,11 @@ router.route('/User/:id')
 
   
 
+router.route('/User/:id')
+  .post((req, res) => {
+    UsersController.createUsername(req, res);
+  })
+
 router.route('/User/:id/save')
   .post((req, res) => {
     UsersController.saveData(req, res);
@@ -48,7 +53,7 @@ router.route('/Pages')
   .post((req, res) => {
     PagesController.createPage(req, res);
   })
-  
+
 router.route('/Pages/all/:id')
   .get((req, res) => {
     PagesController.getPageById(req, res);

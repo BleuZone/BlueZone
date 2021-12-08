@@ -100,6 +100,21 @@ const deleteSave = (req, res) => {
   })
 }
 
+
+const createUsername = (req, res) => {
+  const reqBody = req.body;
+  const user_id = req.params.id;
+  const username = reqBody.username;
+
+  usernameModel.createUsername(user_id, username, (err, result) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(200).send(result);
+    }
+  })
+}
+
 const getId = (req, res) => {
   const reqBody = req.body;
   const email = reqBody.email;
@@ -112,6 +127,7 @@ const getId = (req, res) => {
     }
   })
 }
+
 
 const getUsername = (req, res) => {
   const user_id = req.params.id;
