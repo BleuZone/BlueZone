@@ -258,6 +258,25 @@ let searchPosts = (search_query, callback) => {
   })
 };
 
+/**
+ *
+ * This function returns the reported posts
+ * @param {function(err, result)} callback
+ */
+ let getAllPosts = (callback) => {
+  let retArray = [];
+  database.query(`SELECT * FROM posts `, (err,result) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      result.map((row) => {
+        retArray.push({ ...row});
+      })
+      callback(null, retArray);
+    }
+  })
+};
+
 // REPORT POSTS TESTS
 
 //getReportedPosts((err,result) => {
@@ -387,4 +406,4 @@ let searchPosts = (search_query, callback) => {
 //   }
 // })
 
-module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts, reportPost, deleteReportedPost,unreportPost, getReportedPosts};
+module.exports = {getPosts, createPost, createPost, editPost, deletePost, incrementPoints, decrementPoints, incrementCommentCount, decrementCommentCount, searchPosts, reportPost, deleteReportedPost,unreportPost, getReportedPosts, getAllPosts};
