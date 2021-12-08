@@ -18,6 +18,7 @@ CREATE TABLE pages (
   page_title varchar(255) NOT NULL,
   page_parent_id INT,
   post_count INT NOT NULL,
+  description varchar(255) NOT NULL,
   PRIMARY KEY (page_id)
 );
 

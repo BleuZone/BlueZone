@@ -31,8 +31,9 @@ const createPage = (req,res) => {
   const reqBody = req.body;
   const page_title = reqBody.page_title;
   const page_parent_id = reqBody.page_parent_id;
+  const description = reqBody.description;
 
-  pageModel.createPage(page_title,page_parent_id, (err,result) => {
+  pageModel.createPage(page_title,page_parent_id, description, (err,result) => {  
     if (err) {
         res.sendStatus(404);
       } else {
