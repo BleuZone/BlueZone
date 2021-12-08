@@ -73,6 +73,39 @@ const getEncryptedPassword = (user_email, callback) => {
     })
   };
 
+/**
+ * gets username
+ * id: int
+ * callback: function()
+ */
+  const getUsername = (id, callback) => {
+    database.query(
+        ` SELECT username FROM username_matching WHERE id=?`, [id],
+        (err,result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    })
+  };
+
+  /**
+ * gets username
+ * email: char
+ * callback: function()
+ */
+  const getId = (email, callback) => {
+    database.query(
+        ` SELECT id FROM users WHERE user_email=?`, [email],
+        (err,result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    })
+  };
 
   //  when they delete user, really it should delete the usernames, and then change the posts associated with that user
 
@@ -137,4 +170,4 @@ const getEncryptedPassword = (user_email, callback) => {
 //   }
 // });
 
-module.exports = {createUser, changePassword, getEncryptedPassword, deleteUser};
+module.exports = {createUser, changePassword, getEncryptedPassword, deleteUser, getId, getUsername};
