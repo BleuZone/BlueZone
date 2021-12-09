@@ -21,20 +21,16 @@ router.route('/User/login')
   .post((req, res) => {
     UsersController.authenticateUser(req, res);
   })
-  .get((req, res) => {
+  .put((req, res) => {
     UsersController.getId(req, res);
   })
 
 router.route('/User/:id')
-  .get((req, res) => {
-    UsersController.getUsername(req, res);
-  })
-
-  
-
-router.route('/User/:id')
   .post((req, res) => {
     UsersController.createUsername(req, res);
+  })
+  .put((req, res) => {
+    UsersController.getUsername(req, res);
   })
 
 router.route('/User/:id/save')
