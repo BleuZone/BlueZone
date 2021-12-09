@@ -1,1 +1,7 @@
 node_modules/
+conf.d/
+/node_modules
+node_modules
+config.js
+.env
+var.env
