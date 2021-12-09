@@ -19,7 +19,6 @@ router.route('/User/:username')
 
 router.route('/User/login')
   .post((req, res) => {
-    console.log("postpospto");
     UsersController.authenticateUser(req, res);
   })
   .put((req, res) => {
