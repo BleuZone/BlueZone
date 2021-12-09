@@ -147,8 +147,7 @@ const getUsername = (req, res) => {
  * @param {*} res 
  */
  const getAllUserPosts = (req,res) => {
-  const reqBody = req.body;
-  const username = reqBody.username;
+  const username = req.params.username;
 
   userModel.getAllUserPosts(username,(err,result) => {
     if (err) {

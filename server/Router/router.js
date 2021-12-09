@@ -11,6 +11,8 @@ router.route('/User')
   .post((req, res) => {
     UsersController.createUser(req,res);
   })
+
+router.route('/User/:username')
   .get((req, res) => {
     UsersController.getAllUserPosts(req, res);
 })
