@@ -73,12 +73,18 @@ const getEncryptedPassword = (user_email, callback) => {
         ` DELETE FROM users WHERE id=?`, [id],
         (err,result) => {
       if (err) {
-        callback(err, null);
-      } else {
-        callback(null, result);
-      }
-    })
-  };
+        database.query(
+          ` DELETE FROM username_matching WHERE id=?`, [id],
+          (err,result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      })
+    };
+  })
+};
 
 /**
  * gets username

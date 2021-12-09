@@ -120,9 +120,11 @@ const getId = (req, res) => {
   const email = reqBody.email;
 
   userModel.getId(email, (err, result) => {
+    console.log(email);
     if (err) {
       res.sendStatus(400)
     } else {
+      console.log(email);
       res.status(200).send(result);
     }
   })
@@ -136,6 +138,8 @@ const getUsername = (req, res) => {
     if (err) {
       res.sendStatus(400)
     } else {
+      console.log(result);
+      console.log(user_id);
       res.status(200).send(result);
     }
   })
