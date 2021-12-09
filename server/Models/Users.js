@@ -73,7 +73,7 @@ const getEncryptedPassword = (user_email, callback) => {
         ` DELETE FROM users WHERE id=?`, [id],
         (err,result) => {
       if (err) {
-        callback(err, null);
+                callback(err, null);
       } else {
         callback(null, result);
       }
