@@ -60,9 +60,9 @@ const deletePost = (req, res) => {
       let postResult = result;
       pageModel.decrementPostCount(page_id, (err, result) => {
         if (err) {
-          res.sendStatus(401);
+          res.sendStatus(400);
         } else {
-          res.status(201).send(postResult);
+          res.status(200).send(postResult);
         }
       })
     }
@@ -77,9 +77,9 @@ const editPost = (req, res) => {
 
   postModel.editPost(post_id, post_title, post_body, (err,result) => {
     if (err) {
-      res.sendStatus(204);
+      res.sendStatus(400);
     } else {
-      res.status(201).send(result)
+      res.status(200).send(result)
     }
   })
 }
@@ -89,9 +89,9 @@ const incrementPoints = (req, res) => {
 
   postModel.incrementPoints(post_id, (err,result) => {
     if (err) {
-      res.sendStatus(202);
+      res.sendStatus(400);
     } else {
-      res.status(406).send(result)
+      res.status(200).send(result)
     }
   })
 }
@@ -101,17 +101,17 @@ const decrementPoints = (req, res) => {
 
   postModel.decrementPoints(post_id, (err,result) => {
     if (err) {
-      res.sendStatus(202);
+      res.sendStatus(400);
     } else {
-      res.status(406).send(result)
+      res.status(200).send(result)
     }
   })
 }
 
 /**
  * This function unreports a post and moves it back
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
  const reportPost = (req,res) => {
   const post_id = req.params.id;
@@ -133,8 +133,8 @@ const decrementPoints = (req, res) => {
 
 /**
  * This function reports a post and moves it from the post table to the reported table
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
  const deleteReportedPost = (req,res) => {
   const post_id = req.params.id;
@@ -150,8 +150,8 @@ const decrementPoints = (req, res) => {
 
 /**
  * This function unreports a post and moves it back
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
  const unreportPost = (req,res) => {
   const post_id = req.params.id;
@@ -173,8 +173,8 @@ const decrementPoints = (req, res) => {
 
 /**
  * This function returns all reported posts
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
  const getReportedPosts = (req,res) => {
   postModel.getReportedPosts((err,result) => {
@@ -188,8 +188,8 @@ const decrementPoints = (req, res) => {
 
 /**
  * This function returns all reported posts
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
  const getAllPosts = (req,res) => {
   postModel.getAllPosts((err,result) => {
