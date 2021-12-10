@@ -1,3 +1,8 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
+
 const { userModel, usernameModel, postModel, pageModel, commentModel, saveModel } = require('../Models/FunctionExports.js');
 const bcrypt = require('bcrypt');
 

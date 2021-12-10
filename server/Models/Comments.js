@@ -1,3 +1,7 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
 let database = require('../../db/index.js');
 const util = require('util');
 
@@ -29,7 +33,11 @@ const getComments = (post_id, callback) => {
   })
 }
 
-
+/**
+ *
+ * @param {int} post_id 
+ * @param {func} callback 
+ */
 const recurseQuery = (post_id, callback) => {
   database.query(
     `WITH RECURSIVE cte (comment_id, username, comment, parent_id, post_id, creation_time, points) as (
@@ -162,6 +170,11 @@ let incrementPoints = (comment_id, callback) => {
   );
 }
 
+/**
+ *
+ * @param {*} comment_id
+ * @param {*} callback
+ */
 const decrementPoints = (comment_id, callback) => {
   database.query(
     'UPDATE comments SET points = points - 1 WHERE comment_id = ?',
@@ -178,6 +191,11 @@ const decrementPoints = (comment_id, callback) => {
   );
 }
 
+/**
+ *
+ * @param {*} search_query
+ * @param {*} callback
+ */
 const searchComments = (search_query, callback) => {
   let retArray = [];
   database.query(

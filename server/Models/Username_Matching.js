@@ -1,5 +1,8 @@
-let database = require('../../db/index.js');
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
 
+let database = require('../../db/index.js');
 
 /**
  * user_id: user id value from users table an int
@@ -22,9 +25,9 @@ let fetchUsername = (user_id, callback) => {
 
 /**
  *
- * @param {*} user_id of username
- * @param {*} username to be created
- * @param {*} callback
+ * @param {int} user_id of username
+ * @param {string} username to be created
+ * @param {func} callback
  * Create a username associated to a user id in username_matching table
  */
 let createUsername = (user_id, username, callback) => {
@@ -39,9 +42,9 @@ let createUsername = (user_id, username, callback) => {
 
 /**
  *
- * @param {*} user_id of username
- * @param {*} username to be changed
- * @param {*} callback
+ * @param {int} user_id of username
+ * @param {string} username to be changed
+ * @param {func} callback
  * update a username for a specific user id in username_matching table
  */
 let changeUsername = (user_id, username, callback) => {
@@ -57,8 +60,8 @@ let changeUsername = (user_id, username, callback) => {
 
 /**
  *
- * @param {*} id of username
- * @param {*} callback
+ * @param {int} id of username
+ * @param {func} callback
  * Delete the username for a specific user id in username_matching table
  * This deletes the username but does not update to (deleted) in table
  */
