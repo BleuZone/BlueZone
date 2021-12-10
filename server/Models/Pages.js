@@ -1,3 +1,7 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
 let database = require('../../db/index.js');
 
 /**

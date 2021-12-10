@@ -1,3 +1,8 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
+
 let database = require ('../../db/index.js');
 
 /**
@@ -12,7 +17,13 @@ const saveData = (user_id, post_id, comment_id, callback) => {
     if (err) {
       callback(err, null);
     } else {
-      callback(null, result);
+      database.query('SELECT * FROM saving WHERE save_id=LAST_INSERT_ID()', (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      })
     }
   });
 }
@@ -55,6 +66,11 @@ const getSavedComments = (user_id, callback) => {
   })
 }
 
+/**
+ * 
+ * @param {int} save_id 
+ * @param {func} callback 
+ */
 const deleteSave = (save_id, callback) => {
   database.query(`DELETE from saving WHERE save_id = ?`, [save_id], (err, result) => {
     if (err) {
