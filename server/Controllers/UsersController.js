@@ -48,7 +48,6 @@ const authenticateUser = (req, res) => {
 
 const saveData = (req, res) => {
   const reqBody = req.body;
-  console.log(reqBody);
   const user_id = req.params.id;
   const post_id = reqBody.post_id || null;
   const comment_id = reqBody.comment_id || null;
