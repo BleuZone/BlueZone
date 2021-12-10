@@ -48,6 +48,7 @@ const authenticateUser = (req, res) => {
 
 const saveData = (req, res) => {
   const reqBody = req.body;
+  console.log(reqBody);
   const user_id = req.params.id;
   const post_id = reqBody.post_id || null;
   const comment_id = reqBody.comment_id || null;
@@ -143,8 +144,8 @@ const getUsername = (req, res) => {
 
 /**
  * This function returns all posts of a user given the username
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
  const getAllUserPosts = (req,res) => {
   const username = req.params.username;
