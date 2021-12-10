@@ -125,7 +125,7 @@ let getTopPage = (callback) => {
  * @param {function(null, Array[object])} callback
  */
  let getPageById = (page_id, callback) => {
-  database.query(`SELECT * FROM Pages WHERE page_id = ?`, [page_id],
+  database.query(`SELECT * FROM pages WHERE page_id = ?`, [page_id],
     (err, result) => {
       if (err) {
         callback(err, null);
