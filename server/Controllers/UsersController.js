@@ -32,7 +32,7 @@ const createUser = (req, res) => {
 const authenticateUser = (req, res) => {
   const reqBody = req.body;
   const user_email = reqBody.user_email;
-  const user_password= reqBody.password;
+  const password= reqBody.password;
   userModel.getEncryptedPassword(user_email, (err, result) => {
     if(err){
       res.status(400).send({error : "Could not get password for user"});
@@ -40,11 +40,16 @@ const authenticateUser = (req, res) => {
     else{
       let hash = result.user_password;
       const user_id = result.id
-      bcrypt.compare(user_password, hash, (err, result) => {
+      bcrypt.compare(password, hash, (err, result) => {
         if(err) {
           res.status(400).send({error: "Passwords do not match"})
         } else {
-          res.status(201).send({user_id: user_id});
+          if (!result) {
+            res.status(400).send({error: 'Incorrect Password'})
+          } else if (result) {
+            res.status(201).send({user_id: user_id});
+          }
+
         }
       })
     }
