@@ -12,21 +12,23 @@ let database = require ('../../db/index.js');
  * @param {int} comment_id
  * @param {function(err, result)} callback
  */
-const saveData = (user_id, post_id, comment_id, callback) => {
+ const saveData = (user_id, post_id, comment_id, callback) => {
   database.query(`INSERT INTO saving(user_id, post_id, comment_id) VALUES (?, ?, ?)`, [user_id, post_id, comment_id], (err, result) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      database.query('SELECT * FROM saving WHERE save_id=LAST_INSERT_ID()', (err, result) => {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, result);
-        }
-      })
-    }
+   if (err) {
+    callback(err, null);
+   } else {
+    // callback(null, result);
+    database.query(`SELECT save_id FROM saving WHERE save_id = LAST_INSERT_ID()`, (err, result) => {
+     if (err) {
+      callback(err, null)
+     } else {
+      let retObj = { ...result[0] };
+      callback(null, retObj)
+     }
+    })
+   }
   });
-}
+ }
 
 /**
  *
