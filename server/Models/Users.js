@@ -1,3 +1,7 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
 let database = require('../../db/index.js');
 
 /**
@@ -31,7 +35,6 @@ const createUser = (user_email, user_password, callback) => {
  * user_password: string (should be hashed before this step)
  * callback: function()
  */
-
  const changePassword = (id, user_email, user_password, callback) => {
     database.query(`UPDATE users SET user_password = ? WHERE id = ? AND user_email = ?`, [user_password, id, user_email],
     (err, result) => {
@@ -49,7 +52,6 @@ const createUser = (user_email, user_password, callback) => {
  * user_email: string
  * callback: function()
  */
-
 const getEncryptedPassword = (user_email, callback) => {
   database.query(
     `SELECT user_password, id FROM users WHERE user_email = ?`, [user_email], (err,result) => {

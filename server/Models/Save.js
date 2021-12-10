@@ -1,3 +1,8 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
+
 let database = require ('../../db/index.js');
 
 /**
@@ -55,6 +60,11 @@ const getSavedComments = (user_id, callback) => {
   })
 }
 
+/**
+ * 
+ * @param {int} save_id 
+ * @param {func} callback 
+ */
 const deleteSave = (save_id, callback) => {
   database.query(`DELETE from saving WHERE save_id = ?`, [save_id], (err, result) => {
     if (err) {

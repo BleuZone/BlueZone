@@ -1,3 +1,7 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
 const e = require('express');
 let database = require ('../../db/index.js');
 const { report } = require('../Router/router.js');

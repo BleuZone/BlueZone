@@ -1,3 +1,8 @@
+/**
+ * @authors: Zachary Lewitton, Jodi Yeh, Joshua Boss, Arjun Rao
+ */
+
+
 const { response } = require('express');
 const { userModel, usernameModel, postModel, pageModel, commentModel } = require('../Models/FunctionExports.js');
 
