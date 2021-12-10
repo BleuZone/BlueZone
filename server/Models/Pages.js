@@ -16,6 +16,7 @@ let getChildPages = (parent_id, callback) => {
     ],
     (err, result) => {
       if (err) {
+        console.log(err);
         callback(err, null);
       } else {
         let resultArray = [];
