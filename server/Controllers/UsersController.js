@@ -148,8 +148,8 @@ const getUsername = (req, res) => {
 
 /**
  * This function returns all posts of a user given the username
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
  const getAllUserPosts = (req,res) => {
   const username = req.params.username;
